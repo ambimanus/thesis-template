@@ -1,0 +1,57 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Autor: Christian Hinrichs, Januar 2014
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Setup
+%
+\input{setup}                                                                   % Lade Präambel
+%
+% Satzspiegel anpassen, damit Titelseite bei transparentem Cover zentriert erscheint
+\KOMAoptions{DIV=100}
+%
+% Abschließend Satzspiegel neu berechnen!
+\recalctypearea
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\selectlanguage{ngerman}
+%
+% -----------------------------------------------------------------------------
+% Titelseiten (scrguide S. 67 ff.)
+%
+\pagenumbering{Roman}                                                           % große römische Seitenzahlen
+%
+\titlehead{
+  \vspace{6em}
+  \centering
+  \includegraphics[scale=1.24]{Uniol_correctColor}\\
+  {%
+    \microtypesetup{expansion=false}%
+    \fontfamily{jkpss}\lsstyle\microtypecontext{tracking=trackingsmall}%
+    \fontshape{sc}\selectfont%
+      fakultät ii -- informatik, wirtschafts- und rechtswissenschaften\\
+      department für informatik%
+  }
+  \vspace{-4em}
+}
+%
+\title{Meine Diss}
+%
+\subtitle{%
+  \vspace{2em}%
+  \normalfont%
+  \textsf{%
+    Dissertation zur Erlangung des Grades eines\\Doktors der Naturwissenschaften%
+  }%
+  % \vspace{8em}%
+}
+%
+% \author{{\usekomafont{subtitle}\normalfont{}vorgelegt von}\\Vorname Nachname} % Serifen- oder Serifenlose Schrift?
+\author{{\large\textsf{vorgelegt von}}\\\textsf{Vorname Nachname}}
+%
+% \date{\usekomafont{subtitle}\normalfont\today}                                % Serifen- oder Serifenlose Schrift?
+\date{\large\textsf{\today}}
+%
+\maketitle
+%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

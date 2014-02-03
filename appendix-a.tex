@@ -1,0 +1,80 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Autor: Christian Hinrichs, Januar 2014
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Setup
+%
+\ifx\fulldocument\undefined
+  \input{setup}                                                                   % Lade Präambel
+  \begin{document}
+  \selectlanguage{ngerman}
+  \pagestyle{scrheadings}                                                         % Aktiviere Kopfzeilen
+  \appendix
+\fi
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\chapter{Beispiel-Anhang}\label{app:example}
+%
+In \autoref{sec:einleitung} wurde die Konstruktion von synthetischen Probleminstanzen für die Evaluation des in dieser Arbeit entwickelten Einsatzplanungsverfahrens vorgestellt. \autoref{fig:app-gewichtsvektoren-liste} zeigt eine Auflistung in NumPy Notation\footnote{\url{http://www.numpy.org/}} der in der Evaluation verwendeten Probleminstanz \textsf{P($10,5,5$)}, deren Werte nach Konstruktionsvorschrift \textsf{G-C(L)-D(S)} erzeugt wurden. Für eine Simulation der Instanz \textsf{P($10,5,5$)$_{h=5}$} zeigt \autoref{fig:app-h005-0.log} das Protokoll der Beobachterkomponente. \autoref{alg:rw} stellt eine Random Walk Heuristik dar.
+%
+\begin{figure}
+  \hspace{\fill}
+  \begin{minipage}{0.35\textwidth}
+    \lstinputlisting[style=python,basicstyle=\ttfamily\scriptsize,lastline=29]{listings/P10-5-5}
+  \end{minipage}
+  \hspace{\fill}
+  \begin{minipage}{0.35\textwidth}
+    \lstinputlisting[style=python,basicstyle=\ttfamily\scriptsize,firstline=31]{listings/P10-5-5}
+  \end{minipage}
+  \hspace{\fill}
+  %
+  \caption[\textsf{P($10,5,5$)} (Gewichtsvektoren)]{Auflistung der Gewichtsvektoren der Probleminstanz \textsf{P($10,5,5$)}, erzeugt nach Konstruktionsvorschrift \textsf{G-C(L)-D(S)}.}
+  \label{fig:app-gewichtsvektoren-liste}
+\end{figure}
+%
+%
+\begin{figure}
+\centering
+\begin{minipage}{\textwidth}
+  \lstinputlisting[basicstyle=\ttfamily\tiny]{listings/h005-0.log}
+\end{minipage}
+\caption[\textsf{P($10,5,5$)$_{h=5}$} (Simulationsprotokoll)]{Protokoll einer Simulation der Probleminstanz \textsf{P($10,5,5$)$_{h=5}$}.}
+\label{fig:app-h005-0.log}
+\end{figure}
+%
+%
+\begin{algorithm}
+  \caption{Random Walk Heuristik}\label{alg:rw}
+  \begin{algorithmic}[1]
+    \item[\textbf{Parameter:}]
+    \Statex $m \defeq 10$ \Comment{Anzahl Klassen (gegeben durch Probleminstanz)}
+    \Statex $l \defeq 100$ \Comment{Anzahl Wiederholungen}
+    \Statex
+    \item[\textbf{Funktionen:}]
+    \Statex \textsc{init}() \Comment{Erzeuge initiale Lösung als \texttt{array$[1..m]$}}
+    \Statex \textsc{rnd}(i) \Comment{Liefert zufälliges Element aus Klasse $i$}
+    \Statex \textsc{copy}(s) \Comment{Erzeuge Kopie von $s$}
+    \Statex $e^h(s)$ \Comment{Berechnet Fehler für Lösung $s$}
+    \Statex
+    \State $s \gets$ \textsc{init}()
+    \For{$j \gets 1, l$}
+      \For{$i \gets 1, m$}
+        \State $c \gets$ \textsc{rnd}(i) \Comment{Wähle zufälliges Element für Klasse $i$}
+        \State $s' \gets$ \textsc{copy}(s)
+        \State $s'[i] \gets c$
+        \If{$e^h(s') < e^h(s)$} \Comment{Vergleiche Lösungen}
+          \State $s \gets s'$ \Comment{Falls besser, ersetze Lösung}
+        \EndIf
+      \EndFor
+    \EndFor
+    \State \Return $s$ \Comment{Ergebnis: beste gefundene Lösung}
+  \end{algorithmic}
+\end{algorithm}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Ende
+%
+\ifx\fulldocument\undefined
+  \end{document}
+\fi

@@ -1,0 +1,30 @@
+\begin{tikzpicture}[scale=0.9657]
+  % \draw [help lines] (0,0) grid (4,4);
+  % \fill [red] (0,0) circle (2pt);
+  %
+  \def\maxnode{7}
+  % Nodes
+  \node[mynode] at ($(0,0)!1!{360-0*360/8}:(0,\getvalue{nradius})$) (a0) {\xsverbundsp[0]};
+  \foreach \i in {1,2,...,\maxnode} {
+    \node[mynode] at ($(0,0)!1!{360-\i*360/8}:(0,\getvalue{nradius})$) (a\i) {\xsverbundtn[\i]};
+  }
+  % Cloud
+  \node[
+    mycloud,
+    callout relative pointer={(0.2, -0.3)},
+    above left=0.65 and -0.5 of a0.north,
+    aspect=4,
+    cloud puffs=15] {$\xsarbeitsged[0] = \left(\xswlprodukt, \xskonfiguration[0], \xsloesungskandidat[0] \right)$};
+  % Select background layer
+  \begin{pgfonlayer}{bg}
+    \foreach \i in {0,1,...,\maxnode} {
+      % Lines (circle)
+      \pgfmathtruncatemacro{\j}{mod((\i+1),(\maxnode+1))}
+      \draw[myline] (a\i.center) -- (a\j.center);
+    }
+    % Lines (shortcuts)
+    \foreach \i/\j in {0/2, 0/5, 1/3, 1/4, 1/5, 3/5, 4/6} {
+      \draw[myline] (a\i.center) -- (a\j.center);
+    }
+  \end{pgfonlayer}
+\end{tikzpicture}

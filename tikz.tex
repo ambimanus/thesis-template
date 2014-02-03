@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Autor: Christian Hinrichs, Januar 2014
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Setup
+%
+\def\fulldocument{}                                                             % Compiler-Flag für Gesamtdokument
+\input{setup}                                                                   % Lade Präambel
+\tikzexternaldisable                                                            % Deaktiviere Externalisierung
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\selectlanguage{ngerman}
+\pagestyle{scrheadings}                                                         % Aktiviere Kopfzeilen
+%
+%
+\centering
+% Visualisiere Textbreite:
+% \hrule
+%
+\begin{tikzpicture}
+  % \draw [help lines] (0,0) grid (4,4);
+  % \fill [red] (0,0) circle (2pt);
+  %
+  \def\maxnode{7}
+  % Nodes
+  \foreach \i in {0,1,...,\maxnode} {
+    \node[mynode] at ($(0,0)!1!{360-\i*360/8}:(0,\getvalue{nradius})$) (l\i) {$v_{\i}$};
+  }
+  % Select background layer
+  \begin{pgfonlayer}{bg}
+    \foreach \i in {0,1,...,\maxnode} {
+      % Lines left (full connection)
+      \foreach \j in {0,1,...,\maxnode} {
+        \draw[myline] (l\i.center) -- (l\j.center);
+      }
+    }
+  \end{pgfonlayer}
+\end{tikzpicture}
+%
+%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

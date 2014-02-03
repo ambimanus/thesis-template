@@ -1,0 +1,61 @@
+\begin{tikzpicture}
+  % Background box
+  \node (bg) [mybox, top color=primaryA!20, middle color=primaryA!30, bottom color=primaryA!80, shading angle=10, minimum width=\linewidth, minimum height=12.3cm] {};
+  \node [below=2mm of bg.north] {\verb!  mailbox  optimizer!};
+  \draw [draw=primary, line width=1.25pt, dashed] (bg.north) -- (bg.south);
+  %
+  %
+  %%%% Left part
+  \path (bg.west) -- (bg.center) node [pos=0.5] (bg-left) {};
+  \node (store) [mybox, above=5mm of bg-left] {\verb!store(!\xsmsg[j]\verb!)!};
+  \node (flag-l) [mybox, below=5mm of bg-left] {\verb!dirty !$\leftarrow$\verb! true!};
+  \draw [myconnection] (store.south) -- (flag-l.north);
+  \path (store.north)+(-1,0) node (store-n-left) {};
+  \path (store.north)+(-1,5) node (store-n-leftabove) {};
+  \draw [myconnection, draw=black, dashed] (store-n-leftabove.center) -- node [anchor=east] {\xsmsg[j]} (store-n-left.center);
+  %
+  %
+  %%%% Right part
+  \path (bg.north) -- (bg.north east) node [pos=0.5] (bg-right) {};
+  % Boxes
+  \node (sleep) [mybox, below=13mm of bg-right] {\verb!sleep(!\xsdelayexec[i]\verb!)!};
+  \node (dirty) [draw=primary, fill=primary, diamond, text=white, aspect=1.5, below=of sleep, inner sep=0.5em] {\verb!dirty?!};
+  \node (flag-r) [mybox, below=of dirty] {\verb!dirty !$\leftarrow$\verb! false!};
+  \node (action) [mybox, below=of flag-r] {\verb!perceive!\\[1em]\verb!decide!\\[1em]\verb!act!};
+  %
+  %
+  %% Connections
+  % coordinates
+  \path (sleep.north)+(0,1) node (sleep-n-above) {};
+  \path (sleep.north)+(1,0) node (sleep-n-right) {};
+  \path (sleep.north)+(-1,0) node (sleep-n-left) {};
+  \path (sleep.north)+(1,0.5) node (sleep-n-rightabove) {};
+  \path (sleep.north)+(-1,2.0) node (sleep-n-leftabove) {};
+  \path (sleep.north east)+(0.5,0.5) node (sleep-ne) {};
+  \path (action.south east)+(1.0,-0.5) node (action-se) {};
+  \path (action.south)+(-1,0) node (action-s-left) {};
+  \path (action.south)+(-1,-1.5) node (action-s-leftbelow) {};
+  % forward arrows
+  \draw [myconnection] (sleep.south) -- (dirty.north);
+  \draw [myconnection] (dirty.south) -- node [anchor=west, near start] {true} (flag-r.north);
+  \draw [myconnection] (flag-r.south) -- (action.north);
+  % return arrow (action)->(sleep)
+  \draw [myconnection]
+    (action.south)
+    |- (action-se.center)
+    |- (sleep-n-above.center)
+    -- (sleep.north)
+  ;
+  % return arrow (dirty)->(sleep)
+  \draw [myconnection]
+    (dirty.east)
+    -| node [below, near start] {false} (sleep-ne.center)
+    |- (sleep-n-rightabove.center)
+    -- (sleep-n-right.center)
+  ;
+  % entry arrow ()->(sleep)
+  \fill [primary] (sleep-n-leftabove.center) circle (4pt);
+  \draw [myconnection] (sleep-n-leftabove.center) -- (sleep-n-left.center);
+  % leaving arrow (action)->()
+  \draw [myconnection, draw=black, dashed] (action-s-left.center) -- node [anchor=east] {\xsmsg[i]} (action-s-leftbelow.center);
+\end{tikzpicture}
