@@ -1,0 +1,77 @@
+\begin{tikzpicture}[
+    larrow/.style={-,postaction={decorate,decoration={markings,mark=at position 1 with {\arrow[scale=1.5]{>}}}}},
+    radiative/.style={-,decorate,decoration={snake,amplitude=1.5}},
+    mybrace/.style={decorate,decoration={brace,mirror}},
+    mybrace text/.style={pos=0.5,anchor=north,yshift=-0.5em,align=center},
+    planning/.style={
+      rectangle,
+      minimum width=#1,
+      minimum height=4pt,
+      inner sep=0pt,
+      outer sep=0pt,
+      fill=gray,
+      rounded corners=2pt,
+      anchor=west},
+    planning label/.style={anchor=west, xshift=1cm, yshift=2cm, align=center},
+    planning edge/.style={-, bend right=20, shorten >=1pt},
+    pert label/.style={anchor=west, xshift=12.5mm, yshift=2.5cm},
+  ]
+  %
+  % Coordinates
+  \def\mystart{0}
+  \def\mytp{1.5}
+  \def\mytpp{2.0}
+  \def\myts{5}
+  \def\mytz{7.25}
+  \def\mytq{11}
+  \def\myte{12}
+  \def\myend{13.5}
+  %
+  % Timeline
+  \draw[larrow] (\mystart,0)
+    % -- ++(0.5,0) decorate [radiative] {-- ++(0.5,0)}
+    -- (\mytp,0)
+    -- (\mytpp,0)
+    -- (\myts,0)
+    -- (\mytz,0)
+    -- (\mytq,0)
+    -- (\myte,0)
+    % -- ++(0.5,0) decorate [radiative] {-- ++(0.5,0)}
+    -- (\myend,0)
+  ;
+  %
+  % Ticks
+  % \draw (\mytp,0.3em) -- (\mytp,-0.3em);
+  % \draw (\mytp,0) node[below=0.5em] {$t_{p1}$};
+  %
+  \draw (\mytpp,0.3em) -- (\mytpp,-0.3em);
+  \draw (\mytpp,0) node[below=0.5em] {12:00\,Uhr};
+  %
+  \draw (\myts,0.3em) -- (\myts,-0.3em);
+  \draw (\myts,0) node[below=0.5em] {00:00\,Uhr};
+  %
+  \draw (\mytz,0.3em) -- (\mytz,-0.3em);
+  \draw (\mytz,0) node[above=0.5em] {09:00\,Uhr};
+  %
+  \draw (\mytq,0.3em) -- (\mytq,-0.3em);
+  \draw (\mytq,0) node[above=0.5em] {20:00\,Uhr};
+  %
+  \draw (\myte,0.3em) -- (\myte,-0.3em);
+  \draw (\myte,0) node[below=0.5em] {00:00\,Uhr};
+  %
+  % Blocks
+  % select background layer
+  \begin{pgfonlayer}{bg}
+    \node [planning=5mm] (Einsatzplanung) at (\mytp,0) {};
+    \node [planning label] (Einsatzplanung-label) at (Einsatzplanung) {prädiktive Einsatzplanung};
+    \draw (Einsatzplanung-label.west) edge [planning edge] (Einsatzplanung.north);
+    %
+    \node [planning=3.75cm] (Planungshorizont) at (\mytz,0) {};
+    \node [planning label] (Planungshorizont-label) at (Planungshorizont) {Blockgebot \engl{Peakload}\\(Planungshorizont)};
+    \draw (Planungshorizont-label.west) edge [planning edge] (Planungshorizont.north);
+  \end{pgfonlayer}
+  %
+  % Braces
+  \draw[mybrace] (\myts,-1) -- (\myte,-1) node [mybrace text] {Handelstag};
+  % \draw[mybrace] (\myte,-1) ++(0.05,0) -- (\myend,-1) node [mybrace text] {Nachlauf\\(24\,Stunden)};
+\end{tikzpicture}

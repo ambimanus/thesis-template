@@ -1,0 +1,596 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Autor: Christian Hinrichs, Januar 2014
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[
+  BCOR=10mm,                                                                     % ca. 280 Seiten = 140 Blätter * 0.14 mm / 2 = Bindekorrektur 10 mm
+  DIV=9,                                                                        % Textspiegel: klassische Neunerteilung
+  twoside=true,                                                                 % Dokument zweiseitig setzen?
+  headinclude=true,                                                             % Kopfzeile zum Textkörper zählen?
+  footinclude=false,                                                            % Fußzeile zum Textkörper zählen?
+  paper=A4,                                                                     % Papierformat zur Berechnung des Satzspiegels
+  pagesize=auto,                                                                % Papierformat des Kompilates gemäß 'paper' setzen
+  % draft=true,                                                                 % Entwurfsmodus, z.B. mit hervorgehobenen overfull-boxes
+  parskip=false,                                                                % Absatzauszeichnung: 1 em Einzug, kein Abstand
+  cleardoublepage=empty,                                                        % Vakatseiten komplett leer
+  open=right,                                                                   % Kapitel immer auf rechter Doppelseite beginnen
+  chapterprefix=false,                                                          % Präfix "Kapitel 1" vor Kapitelüberschrift?
+  appendixprefix=false,                                                         % Präfix "Anhang A" vor Anhangüberschrift?
+  numbers=noenddot,                                                             % Gliederungsnummern mit Punkt? (auto = Duden-Vorschrift)
+  % leqno,                                                                        % Gleichungen links statt rechts nummerieren
+  % fleqn,                                                                        % Gleichungen linksbündig statt zentriert ausgeben
+  toc=bib,                                                                      % Literaturverzeichnis im Inhaltsverzeichnis
+  toc=listof,                                                                   % Abbildungs- und Tabellenverzeichnis (so vorhanden) im Inhaltsverzeichnis
+]{scrreprt}                                                                     % scrreprt, da scrbook keine abstract-Umgebung hat
+%
+% -----------------------------------------------------------------------------
+% Kodierung
+%
+\usepackage[utf8]{inputenc}                                                     % Aktiviere UTF-8
+%
+% -----------------------------------------------------------------------------
+% Sprache
+%
+\usepackage[ngerman,english]{babel}
+\selectlanguage{ngerman}
+%
+% -----------------------------------------------------------------------------
+% Entwurfsmodus
+%
+\KOMAoption{draft}{false}                                                       % Entwurfsmodus?
+\def\printversion{false}                                                        % Printversion (alle Hyperlinks schwarz-weiß)?
+\def\versionlabel{true}                                                         % Versionsangabe im footer?
+%
+%
+\usepackage{scrtime}
+\usepackage{ifthen}
+\newboolean{printversion}
+\setboolean{printversion}{\printversion}
+%
+\newcommand{\finalVersionString}{}
+\ifthenelse{\boolean{\versionlabel}}{%
+  \usepackage[draft]{prelim2e}
+      \renewcommand{\PrelimWords}{\relax}
+      \renewcommand{\PrelimText}{%
+        \color{halfgray}\tiny[\,Version: \today, \thistime\ Uhr\,]%
+      }
+      \renewcommand{\finalVersionString}{Entwurf, \today}
+}{
+  \renewcommand{\finalVersionString}{Eingereichte Version, \today}
+}
+%
+% -----------------------------------------------------------------------------
+% Fonts
+%
+% Nutze "Type 1" Font anstelle des alten OT1
+\usepackage[T1]{fontenc}
+%
+% Lade Charter für Fließtext + Mathe-Modus
+% (rmfamily wird hierdurch auf mdbch gesetzt)
+\usepackage[charter]{mathdesign}
+%
+% Lade Kp-Fonts mit allen optionen deaktiviert, damit der Font verfügbar ist,
+% aber momentant noch nicht angewendet wird. Dies soll selektiv geschehen,
+% wie bspw. die Verwendung der Mengensymbole (\mathsfit, siehe style.tex).
+\usepackage[nomath,notext,noamsmath,notextcomp]{kpfonts}
+% Setze Kp-Fonts als Standard für sffamily (z.B. Überschriften)
+\renewcommand{\sfdefault}{jkpss}
+%
+% TODO: Monospace Font? (Z.B. Source Sans)
+%
+% Eigentlich sind alle Mathesymbole etc. durch mathdesign bereits verfügbar,
+% aber amsmath wird dennoch benötigt, bspw. für die {equation*} Umgebung.
+\usepackage{amsmath}
+% Note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+% \interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks.
+%
+% Lade fehlende Symbole, wie bspw. textbullet in "sl" shape und korrekter Größe
+\usepackage{textcomp}
+%
+%
+% Größe der Grundschrift
+\KOMAoption{fontsize}{11pt}
+%
+% Durchschuss erhöhen
+\usepackage{setspace}
+\setstretch{1.15}
+%
+% TODO: Der Durchschuss sollte für die Titelseite wieder auf den Normalwert
+% gesetzt werden, siehe scrguide S. 41 f.
+%
+%
+% Abschließend Satzspiegel neu berechnen!
+\recalctypearea
+%
+% -----------------------------------------------------------------------------
+% Microtype
+% (siehe www.khirevich.com/latex/microtype)
+%
+\usepackage[
+  activate={true,nocompatibility},                                              % activate protrusion and expansion
+  final,                                                                        % enable microtype; use "draft" to disable
+  tracking=true,                                                                % activate tracking
+  kerning=true,                                                                 % activate kerning
+  spacing=true,                                                                 % activate spacing
+  factor=1100,                                                                  % add 10% to the protrusion amount (default is 1000)
+  stretch=10,                                                                   % reduce stretchability (default is 20)
+  shrink=10,                                                                    % reduce shrinkability (default is 20)
+]{microtype}
+%
+\SetExtraKerning[unit=space]
+  {
+    encoding={*},
+    family={bch},
+    series={*},
+    size={footnotesize,small,normalsize}
+  }
+  {
+    \textendash={400,400},                                                      % en-dash, add more space around it
+       "28={ ,150},                                                             % left bracket, add space from right
+       "29={150, },                                                             % right bracket, add space from left
+       \textquotedblleft={ ,150},                                               % left quotation mark, space from right
+       \textquotedblright={150, }                                               % right quotation mark, space from left
+  }
+%
+% -----------------------------------------------------------------------------
+% classicthesis & arsclassica
+%
+\usepackage{textcase}
+%
+% ************************************************************
+% Colors (both)
+% ************************************************************
+\usepackage{xcolor}
+\definecolor{halfgray}{gray}{0.55}
+\definecolor{HALFGRAY}{gray}{0.55}
+\definecolor{webbrown}{rgb}{.6,0,0}
+\definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
+%
+% http://colorschemedesigner.com/#3C41TqdnZw0w0
+\definecolor{primary}{HTML}{1F4A7D}
+\definecolor{primaryA}{HTML}{94A4B6}
+\definecolor{primaryB}{HTML}{6581A4}
+\definecolor{primaryC}{HTML}{29415E}
+\definecolor{primaryD}{HTML}{0A2A51}
+\definecolor{secondaryA}{HTML}{BF9D23}
+\definecolor{secondaryB}{HTML}{BF9D23}
+\definecolor{complementary}{HTML}{BF5B23}
+%
+\definecolor{darkgray}{gray}{0.25}
+\definecolor{lightgray}{gray}{0.66}
+%
+% ************************************************************
+% Fancy stuff (arsclassica)
+% ************************************************************
+\SetTracking[context=trackinglarge]{encoding = *}{160}                          % Definiere Kontext: 160er tracking
+\SetTracking[context=trackingsmall]{encoding = *}{80}                           % Definiere Kontext: 80er tracking
+%
+\DeclareRobustCommand{\spacedallcaps}[1]{%                                      % Capitals (uppercase) mit 160er spacing
+  \microtypesetup{expansion=false}%
+  \fontfamily{jkpss}\lsstyle\microtypecontext{tracking=trackingsmall}%
+  \MakeTextUppercase{#1}%
+}
+\DeclareRobustCommand{\spacedlowsmallcaps}[1]{%                                 % Capitals (lowercase) mit 80er spacing
+  \microtypesetup{expansion=false}%
+  \fontfamily{jkpss}\lsstyle\microtypecontext{tracking=trackingsmall}%
+  \fontshape{sc}\selectfont\MakeTextLowercase{#1}%
+}
+%
+% ************************************************************
+% Headlines (arsclassica)
+% ************************************************************
+\usepackage[automark]{scrpage2}
+\clearscrheadings
+%
+\renewcommand{\chaptermark}[1]{\markleft{%                                      % Kapitelname ohne Nummer, in small caps
+  {\spacedlowsmallcaps{#1}}%
+}}
+%
+\renewcommand{\sectionmark}[1]{\markright{%                                     % Sectionname mit Nummer, in small caps
+  {{\small\thesection} \spacedlowsmallcaps{#1}}%
+  % TODO: sectionmark bei neuem kapitel löschen?
+}}
+%
+\lehead{\mbox{%                                                                 % Header oben links: Seitenzahl, vert. Linie, Kapitelname
+  \llap{\small\pagemark\kern1em\color{halfgray}\vline}%
+  \color{halfgray}\hspace{0.5em}\headmark\hfil%
+}}
+%
+\rohead{\mbox{%                                                                 % Header oben rechts: Section, vert. Linie, Seitenzahl
+  \hfil{\color{halfgray}\headmark\hspace{0.5em}}%
+  \rlap{\small{\color{halfgray}\vline}\kern1em\pagemark}%
+}}
+%
+\ofoot[\relax]{%                                                                % Keine Seitenzahlen in Fußzeile,
+  \relax%                                                                       % auch nicht bei Kapitelanfang
+}
+%
+\setkomafont{pageheadfoot}{%                                                    % Schriftart für Header-Text
+  \normalfont\fontfamily{jkpss}\fontshape{sc}\selectfont%
+}
+%
+\setkomafont{pagenumber}{%                                                      % Schriftart für Seitenzahlen
+  \normalfont\small\fontfamily{jkpss}\selectfont%
+}
+%
+%************************************************************
+% Layout of the chapter-, section-, subsection-,
+% subsubsection-, paragraph and description-headings (arsclassica)
+%************************************************************
+\newfont{\chapterNumber}{eurb10 scaled 5000}                                    % Lade skalierte Euler-Font für Kapitelnummer
+%
+\renewcommand*{\chapterformat}{%                                                % Große graue Euler-Kapitelnummer mit vert. Linie
+  {%
+  \color{halfgray}%
+  \chapterNumber\thechapter%
+  }%
+  \hspace{15pt}\smash{\protect\rule[-7pt]{0.5pt}{42pt}}\hspace{15pt}%
+}
+%
+\renewcommand*{\othersectionlevelsformat}[3]{%                                  % Stil der Abschnittsnummerierung
+  \fontfamily{jkpss}\fontshape{sc}\selectfont%
+  \MakeTextLowercase{%
+    #3\autodot\enskip
+  }%
+}
+%
+\setkomafont{chapter}{%                                                         % Stil der Kapitelüberschriften
+  \microtypecontext{tracking=trackinglarge}%
+  \normalfont\Large\fontfamily{jkpss}%
+  \lsstyle%
+  \MakeTextUppercase%
+}
+%
+\setkomafont{section}{%                                                         % Stil der Sectionüberschriften
+  \microtypecontext{tracking=trackingsmall}%
+  \normalfont\Large\fontfamily{jkpss}\fontshape{sc}\selectfont%
+  \lsstyle%
+  % \lowercase%           <-- This would break UTF-8 chars...
+}
+%
+\setkomafont{subsection}{%                                                      % Stil der Subsectionüberschriften
+  \normalfont\normalsize\fontfamily{jkpss}\selectfont%
+}
+%
+\setkomafont{subsubsection}{%                                                   % Stil der Subsubsectionüberschriften
+  \normalfont\normalsize\itshape\fontfamily{jkpss}\selectfont%
+}
+%
+\setkomafont{paragraph}{%                                                       % Stil der Paragraphüberschriften
+  \normalfont\normalsize\bfseries\fontfamily{jkpss}\selectfont%
+}
+%
+% ***********************************************************
+% Misc
+% ***********************************************************
+%
+% % Disable single lines at the start of a paragraph (Schusterjungen)
+% \clubpenalty = 10000
+% % Disable single lines at the end of a paragraph (Hurenkinder)
+% \widowpenalty = 10000
+% \displaywidowpenalty = 10000 % formulas
+%
+% % Enumeration environment with small caps
+% \newenvironment{aenumerate}
+%     {\def\theenumi{\textsc{\alph{enumi}}}%
+%      \enumerate}
+%     {\endenumerate}
+%
+% hack to get the content headlines right
+% \def\toc@headingbkORrp{%
+%   \def\toc@heading{%
+%     \chapter*{\contentsname}%
+%     \@mkboth{\spacedlowsmallcaps{\contentsname}}
+%       {\spacedlowsmallcaps{\contentsname}}}}
+% \@ifclassloaded{scrreprt}{\toc@headingbkORrp}{}
+% \@ifclassloaded{scrbook}{\toc@headingbkORrp}{}
+%
+%************************************************************
+% lists
+%************************************************************
+% \renewcommand\labelitemi{\color{halfgray}$\bullet$}                             % Semi-transparent bullet points
+% \let\oldlabelenumi\labelenumi
+% \renewcommand\labelenumi{\color{halfgray}\oldlabelenumi}                        % Semi-transparent numbers
+%
+%************************************************************
+% caption
+%************************************************************
+\addtokomafont{captionlabel}{\bfseries}                                         % Caption labels in bold face
+%
+% ***********************************************************
+% layout of the TOC, LOF and LOT (LOL-workaround see next section)
+% ***********************************************************
+% TODO (siehe classicthesis.sty)
+%
+% -----------------------------------------------------------------------------
+% Abbildungen
+%
+\setcapindent{1em}                                                              % Reduzierter hängender Einzug (siehe scrguide)
+% -----------------------------------------------------------------------------
+% Tabellen
+%
+\usepackage{array}                                                              % liefert \newcolumntype
+\usepackage{booktabs}                                                           % Typografisch korrekte Tabellen
+%
+% Guidelines:
+%
+% 1. Never, ever use vertical rules.
+% 2. Never use double rules.
+% 3. Put the units in the column heading (not in the body of the table).
+% 4. Always precede a decimal point by a digit; thus 0.1 not just .1.
+% 5. Do not use ‘ditto’ signs or any other such convention to repeat a previous
+%    value. In many circumstances a blank will serve just as well. If it won’t,
+%    then repeat the value.
+%
+% -----------------------------------------------------------------------------
+% Algorithmen + Code
+%
+% Das Paket 'algorithm' liefert die 'algorithm' Umgebung (floating)
+\usepackage{algorithm}
+\floatname{algorithm}{Algorithmus}
+\newcommand{\AND}{\textbf{and}}
+\newcommand{\OR}{\textbf{or}}
+%
+% Das Paket 'algpseudocode' wird benutzt, um *Algorithmen* zu formatieren.
+\usepackage{algpseudocode}
+%
+% Das Paket 'listings' wird benutzt, um *Quellcode* zu formatieren.
+\usepackage{listings}
+%
+% -----------------------------------------------------------------------------
+% Anführungszeichen
+%
+\usepackage[
+  strict,                                                                       % Warnungen werden als Fehler ausgegeben
+  babel                                                                         % Unterstützung für babel aktivieren
+]{csquotes}
+%
+% -----------------------------------------------------------------------------
+% Literaturverzeichnis
+%
+\usepackage[
+  style=alphabetic,                                                             % Stil (cites + bib)
+  % sorting=nty,                                                                  % Sortierung: Name, Titel, Jahr
+  sortlocale=de,                                                                % Deutsche Sprache
+  sortcase=false,                                                               % Sortierung abhängig von Groß-/Kleinschreibung
+  sortcites=false,                                                              % Sortiere multiple Zitate gemäß Literaturverzeichnis
+  % maxnames=3,                                                                   % Max. Anzahl Namen bevor Abkürzung (cites + bib)
+  % minnames=1,                                                                   % Min. Anzahl Namen bevor Abkürzung (cites + bib)
+  maxbibnames=3,                                                                % Max. Anzahl Namen bevor Abkürzung (bib)
+  % minbibnames=1,                                                                % Min. Anzahl Namen bevor Abkürzung (bib)
+  % maxcitenames=2,                                                               % Max. Anzahl Namen bevor Abkürzung (cites)
+  % mincitenames=1,                                                               % Min. Anzahl Namen bevor Abkürzung (cites)
+  % maxitems=3,                                                                   % Max. Anzahl Items in Listen bevor Abkürzung (cites + bib)
+  % minitems=1,                                                                   % Min. Anzahl Items in Listen bevor Abkürzung (cites + bib)
+  % autocite=inline,                                                              % Verhalten von \autocite
+  % autopunct=true,                                                               % Beachte mögliche Punktuation nach Zitat?
+  % block=none,                                                                   % Abstand zwischen bib-Einträgen
+  % hyperref=true,                                                                % Unterstützung für hyperref?
+  backref=true,                                                                   % Aktiviere Back-References?
+  % backrefstyle=three,                                                           % Fasse aufeinanderfolgende Seitenzahlen zusammen
+  % indexing=false,                                                               % Aktiviere Index-Unterstützung für Cites/Bibs?
+  % abbreviate=true,                                                              % Aktiviere Abkürzungen?
+  % date=comp,                                                                    % Abkürzungsstil für Datum
+  backend=biber,                                                                  % Nutze das mächtige biber als backend
+  % texencoding=auto,                                                             % Encoding der tex Dateien
+  % bibencoding=auto,                                                             % Encoding der bib Dateien
+  isbn=false,                                                                     % Zeige ISBN?
+  url=false,                                                                      % Zeige URL?
+  % doi=true,                                                                     % Zeige DOI?
+  % eprint=true,                                                                  % Zeige eprint?
+  useprefix=false,                                                                % Namens-Präfix (z.B. "von") Teil des Nachnamens?
+]{biblatex}
+%
+% \setlength{\bibitemsep}{1em}                                                    % Abstände zwischen Literatureinträgen
+% \setlength{\bibhang}{0em}                                                       % Überhängende Einrückung
+\urlstyle{same}                                                                 % Schriftart der DOIs soll sich nicht unterscheiden
+\renewcommand{\finentrypunct}{}                                                 % removes period at the very end of bibliographic record
+%
+\addbibresource{literatur.bib}                                                  % Lade Literatur-DB
+% \addbibresource{misc.bib}                                                       % Lade weitere Literatur-DB
+%
+% Zusätzlicher Eintragstyp @standard, Beispiel:
+% @standard{VDI4655,
+%   organization = {{Verein Deutscher Ingenieure}},
+%   title = {Referenzlastprofile von Ein- und Mehrfamilienhäusern für den Einsatz von KWK-Anlagen},
+%   type = {VDI Richtlinie},
+%   number = {VDI 4655},
+%   year = {2008},
+%   shorthand = {VDI4655},
+% }
+\DeclareBibliographyDriver{standard}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit\newblock
+  \printfield{number}%
+  \setunit{\addspace}\newblock
+  \printfield[parens]{type}%
+  \newunit\newblock
+  \usebibmacro{organization+location+date}%
+  \newunit\newblock
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  % \newunit\newblock
+  % \usebibmacro{related}%
+  \usebibmacro{finentry}%
+}
+%
+% -----------------------------------------------------------------------------
+% Weitere Pakete
+%
+\usepackage{pdfpages}                                                           % Für Titelseite aus separatem Dokument
+%
+\usepackage{graphicx}
+\graphicspath{{images/}}                                                        % Setze Bild-Pfad
+\usepackage[tight]{subfigure}
+% \let\thesubfigureorig\thesubfigure                                              % Speichere aktuelles Format der Nummerierung
+\usepackage{amsthm}                                                             % verbessert \newtheorem, für thmtools
+\usepackage{mdframed}                                                           % Rahmen, für thmtools
+\usepackage{thmtools}                                                           % liefert \declaretheorem
+\usepackage{environ}
+%
+\usepackage{tikz}                                                               % Diagramme
+\usetikzlibrary{
+  trees,
+  positioning,
+  patterns,
+  calc,
+  intersections,
+  shapes,
+  arrows,
+  decorations.markings,
+  decorations.pathmorphing,
+  decorations.pathreplacing,
+}
+%
+%
+% Key-Value system
+% http://tex.stackexchange.com/a/37113
+\newcommand{\setvalue}[1]{\pgfkeys{/variables, #1}}
+\newcommand{\getvalue}[1]{\pgfkeysvalueof{/variables/#1}}
+\newcommand{\declare}[1]{%
+ \pgfkeys{
+  /variables/#1.is family,
+  /variables/#1.unknown/.style = {\pgfkeyscurrentpath/\pgfkeyscurrentname/.initial = ##1}
+ }%
+}
+\declare{}
+% Examples:
+% \begin{document}
+%   \setvalue{VARIABLE1 = foo foo bar}
+%   \getvalue{VARIABLE1}
+%   \declare{test/}
+%   \setvalue{test/property = 12}
+%   \getvalue{test/property}
+% \end{document}
+%
+\usetikzlibrary{external}                                                       % Externalize TikZ images
+\tikzexternalize[prefix=images/,mode=list and make,optimize=false]
+%
+%
+\usepackage[german,intoc,noprefix]{nomencl}
+\makenomenclature
+% Mehrere nomencl-Abschnitte:
+% http://www.mrunix.de/forums/showpost.php?p=210422&postcount=29
+\renewcommand{\nomname}{Akronyme}
+\renewcommand{\nompreamble}{\markboth{\nomname}{\nomname}}
+\renewcommand{\nomlabelwidth}{2.5cm}
+\newcommand{\nomaltname}{Symbole}
+\newcommand{\nomaltpreamble}{\markboth{\nomaltname}{\nomaltname}}
+\newcommand{\nomaltpostamble}{}
+\newcommand{\switchnomitem}{S}
+\renewcommand{\nomgroup}[1]{%
+  \ifthenelse{\equal{#1}{\switchnomitem}}{\switchnomalt}{}}
+\newcommand{\switchnomalt}{%
+  \end{thenomenclature}
+  \renewcommand{\nomname}{\nomaltname}
+  \renewcommand{\nompreamble}{\nomaltpreamble}
+  \renewcommand{\nompostamble}{\nomaltpostamble}
+  \begin{thenomenclature}
+}
+%
+%
+% Unit measurement system:
+% \usepackage{fp}
+% \newlength{\TOarg} \newlength{\TOunit}
+% {\catcode`p=12 \catcode`t=12 \gdef\TOnum#1pt{#1}}
+% \newcommand\TOop[2]{\setlength{\TOarg}{#2}%
+%    \FPdiv\TOres{\expandafter\TOnum\the\TOarg}{\expandafter\TOnum\the\TOunit}%
+%    \FPround\TOres\TOres{#1}}
+% \newcommand{\TOspace}{\ }
+% \newcommand\TOpt[2][2]{\setlength{\TOunit}{1pt}\TOop{#1}{#2}\TOres\TOspace pt}
+% \newcommand\TOin[2][2]{\setlength{\TOunit}{1in}\TOop{#1}{#2}\TOres\TOspace in}
+% \newcommand\TOcm[2][2]{\setlength{\TOunit}{1cm}\TOop{#1}{#2}\TOres\TOspace cm}
+% \newcommand\TOmm[2][2]{\setlength{\TOunit}{1mm}\TOop{#1}{#2}\TOres\TOspace mm}
+% \newcommand\TOem[2][2]{\setlength{\TOunit}{1em}\TOop{#1}{#2}\TOres\TOspace em}
+% Examples:
+% The width of this document is \TOpt[0]{\textwidth}, that is, \TOin{\textwidth}, whereas the height is \TOpt[3]{\textheight}, i.e. \TOin{\textheight}. Here we have some equivalences between different units:
+% \begin{center}
+%    \renewcommand{\arraystretch}{1.5}
+%    \begin{tabular}{r*{4}{@{\ =\ }r}}
+%       1pt & \TOpt[0]{1pt} & \TOin[3]{1pt} & \TOcm{1pt} & \TOmm{1pt}  \\
+%       1in & \TOpt{1in} & \TOin[0]{1in} & \TOcm{1in} & \TOmm[1]{1in}  \\
+%       1cm & \TOpt{1cm} & \TOin[3]{1cm} & \TOcm[0]{1cm} & \TOmm[0]{1cm}  \\
+%       1mm & \TOpt{1mm} & \TOin[3]{1mm} & \TOcm{1mm} & \TOmm[0]{1mm}
+%    \end{tabular}
+% \end{center}
+% The em unit depends on which font is active:
+% \begin{itemize}
+%    \item 1 cm = \TOem{1cm}, 1 em = \TOcm{1em}
+%    \item {\bfseries 1 cm = \TOem{1cm}, 1 em = \TOcm{1em}}
+%    \item {\bfseries \large 1 cm = \TOem{1cm}, 1 em = \TOcm{1em}}
+%    \item {\ttfamily 1 cm = \TOem{1cm}, 1 em = \TOcm{1em}}
+% \end{itemize}
+%
+%
+% Copy-Pasteable Listings
+% http://www.monperrus.net/martin/copy-pastable-listings-in-pdf-from-latex
+% http://tex.stackexchange.com/questions/4911/phantom-spaces-in-listings-pdf
+\usepackage[space=true]{accsupp}
+\newcommand{\copyablespace}{\BeginAccSupp{method=hex,unicode,ActualText=00A0}\ \EndAccSupp{}}
+%
+%
+% Dummy text
+\usepackage{blindtext}
+\blindmathtrue
+%
+% -----------------------------------------------------------------------------
+% hyperref
+%
+\usepackage{hyperref}
+%
+\hypersetup{
+  colorlinks=true,
+  linktocpage=true,
+  % pdfstartpage=3,
+  pdfstartview=FitV,
+  breaklinks=true,
+  pageanchor=true,
+  pdfpagemode=UseOutlines,
+  plainpages=false,
+  bookmarksnumbered,
+  bookmarksopen=true,
+  bookmarksopenlevel=1,
+  hypertexnames=true,
+  pdfhighlight=/O,
+  urlcolor=webbrown,
+  linkcolor=RoyalBlue,
+  citecolor=RoyalBlue,
+  % pagecolor=RoyalBlue,
+  pdftitle={Meine Diss},                                                        % ******** An eigenen Titel anpassen! ********
+  pdfauthor={\textcopyright\ Vorname Nachname},                                 % ******** An eigenen Namen anpassen! ********
+  pdfsubject={\finalVersionString},
+  pdfkeywords={},
+}
+\ifthenelse{\boolean{\printversion}}{%
+  \hypersetup{
+    hidelinks=true,
+  }
+}{
+}
+%
+% Deutsche Bezeichner für \autoref{}
+\addto\extrasngerman{%
+  \def\subsectionautorefname{Abschnitt}%
+  \def\definitionautorefname{Definition}%
+  \def\algorithmautorefname{Algorithmus}%
+  \def\subfigureautorefname{Abbildung}%
+  \def\tableautorefname{Tabelle}%
+}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Weitere includes
+%
+\input{style}                                                                   % Lade eigene Stil-Kommandos
+\input{hyphenation}                                                             % Lade Silbentrennungs-Definitionen
+%

@@ -1,0 +1,396 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Autor: Christian Hinrichs, Januar 2014
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abbreviations and general terms
+%
+\newcommand{\mydh}{d.\,h.}
+\newcommand{\myua}{unter anderem}
+\newcommand{\vgl}{vgl.}
+\newcommand{\sog}{sog.}
+\newcommand{\bspw}{bspw.}
+\newcommand{\Bspw}{Bspw.}
+\newcommand{\bzgl}{bzgl.}
+\newcommand{\Bzgl}{Bzgl.}
+\newcommand{\ggf}{ggf.}
+\newcommand{\bzw}{bzw.}
+\newcommand{\usw}{usw.}
+\newcommand{\etc}{etc.}
+\newcommand{\zB}{z.\,B.}
+\newcommand{\na}{n.\,a.}
+\newcommand{\odba}{o.\,B.\,d.\,A.}
+\newcommand{\Odba}{O.\,B.\,d.\,A.}
+\newcommand{\gdw}{g.\,d.\,w.}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Acronyms
+%
+\makeatletter
+\newcommand{\mkacr}[2]{%
+  % #1 = the acronym
+  % #2 = definition of the acronym
+  %
+  % Example:
+  % \mkacr{KWK}{Kraft-Wärme-Kopplung}
+  % This will do the following:
+  % - Create a command "\KWK" that expands to "\textsf{KWK}"
+  % - Create a tooltip over the expanded text,
+  %   containing "Definition: Kraft-Wärme-Kopplung"
+  % - Create command \xKWK just like above, but without tooltip
+  % - Create an entry in the nomenclature (list of acronyms, nomencl package
+  %   required) using the string "Kraft-Wärme-Kopplung" from argument #2
+  %
+  % Define the actual command
+  \global\expandafter\DeclareRobustCommand\csname #1\endcsname{%
+    \href{Definition: #2}{%
+      \textcolor{black}{\textsf{#1}}%
+    }%
+  }%
+  % The same for the "\x..." variant without tooltip
+  \global\expandafter\DeclareRobustCommand\csname x#1\endcsname{%
+    \textsf{#1}
+  }%
+  %
+  % Finally, create the nomenclature entry (nomencl package required)
+  \nomenclature[A#1]{\textsf{#1}}{#2}
+}
+\makeatother
+%
+% -----------------------------------------------------------------------------
+% Es folgen einige Beispielakronyme zur Veranschaulichung:
+%
+% Standard Acronyms:
+\mkacr{IEEE}{Institute of Electrical and Electronics Engineers}
+\mkacr{SCADA}{Supervisory Control and Data Acquisition}
+\mkacr{VK}{Virtuelles Kraftwerk}
+\mkacr{OFFIS}{Oldenburger Forschungs- und Entwicklungsinstitut für Informatik}
+%
+% Sepcials (which require either a special command name, or a special tooltip):
+% \newcommand{\PtoP}{%
+%   \href{Definition: Peer-to-Peer Netz}{%
+%     \textcolor{black}{\textsf{P2P}}%
+%   }%
+% }
+% \nomenclature[AP2P]{\textsf{P2P}}{Peer-to-Peer Netz}
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Symbols
+%
+% Here the tooltip must be ASCII, otherwise the compiler would break when using
+% a symbol in math mode. Therefore, a few extra arguments are necessary.
+% Also, we want to be able to assign an index to the symbols. Thus the command
+% definition below is a lot more difficult.
+\makeatletter
+\newcommand{\mksym}[4]{%
+  % #1 = command name for the symbol
+  % #2 = the symbol itself
+  % #3 = definition of the symbol
+  % #4 = definition of the prefix, for nomenclature sorting. May be left empty.
+  %
+  % Example:
+  % \mksym{sfit}{v}{Güte}{11g}
+  % This will do the following:
+  % - Create a command "\sfit" that expands to "v" in math mode,
+  %   or to "$v$" in text mode
+  % - Create a command "\sfit[i]" that expands to "v_{i}" or "$v_{i}$",
+  %   where "i" is an arbitrary argument
+  % - Create a tooltip over the expanded symbol, containing "Definition: Güte"
+  % - Create commands \xsfit and \xsfit[i] just like above, but without tooltip
+  % - Create an entry in the nomenclature (list of symbols, nomencl package
+  %   required) using the string "Güte" from argument #3 and the sorting prefix
+  %   from argument #4
+  %
+  % First, define delegates for optional argument handling
+  \global\expandafter\DeclareRobustCommand\csname #1\endcsname{%
+    \@ifnextchar[%
+      {\csname @@#1\endcsname}% with some argument [foo]
+      {\csname @#1\endcsname}% without argument
+  }%
+  % The same for the "\x..." variant without tooltip
+  \global\expandafter\DeclareRobustCommand\csname x#1\endcsname{%
+    \@ifnextchar[%
+      {\csname @@x#1\endcsname}% with some argument [foo]
+      {\csname @x#1\endcsname}% without argument
+  }%
+  %
+  % Second, define the tooltip text based on argument #3.
+  \global\expandafter\def\csname @tt#1\endcsname{#3}%
+  %
+  % Third, build the actual delegate targets (hyperref package required)
+  \global\expandafter\def\csname @@#1\endcsname[##1]{%
+    \href{Definition: \csname @tt#1\endcsname}{%
+      \textcolor{black}{\ensuremath{#2_{##1}}}%
+    }%
+  }%
+  \global\expandafter\def\csname @#1\endcsname{%
+    \href{Definition: \csname @tt#1\endcsname}{%
+      \textcolor{black}{\ensuremath{#2}}%
+    }%
+  }%
+  \global\expandafter\def\csname @@x#1\endcsname[##1]{%
+    \ensuremath{#2_{##1}}%
+  }%
+  \global\expandafter\def\csname @x#1\endcsname{%
+    \ensuremath{#2}%
+  }%
+  %
+  % Finally, create the nomenclature entry (nomencl package required)
+  \nomenclature[S#4]{\ensuremath{#2}}{\hspace*{-1.5cm}#3}
+}
+\makeatother
+%
+% Declare \mathsfit as sans-serif + non-bold + italic in math mode,
+% using the Kp font
+\DeclareMathAlphabet{\mathsfit}{\encodingdefault}{jkpss}{m}{it}
+%
+% -----------------------------------------------------------------------------
+% Es folgen einige Beispielsymbole zur Veranschaulichung:
+%
+% Symbols: Allgemein
+\nomenclature[S00]{\textbf{\textsf{Allgemein}}}{}
+\mksym{swl}{\mathrm{P}_{\mathrm{el}}}{Elektrische Wirkleistung}{0pel}
+\mksym{stl}{\mathrm{P}_{\mathrm{th}}}{Thermische Leistung}{0pth}
+%
+% Symbols: Chapter 1 (latin chars)
+\nomenclature[S10]{}{}
+\nomenclature[S11]{\textbf{\textsf{Einleitung (\autoref{sec:einleitung})}}}{}
+\mksym{sverbundtn}{a}{Verbundteilnehmer}{11a0}
+\mksym{sverbundsp}{\hat{a}}{Verbundsprecher}{11a1}
+\mksym{sverbund}{\mathsfit{A}}{Verbund}{11a2}
+\mksym{skommunikationsnetz}{\mathsfit{C}}{Kommunikationsnetz}{11c}
+\mksym{soverlayedges}{\mathsfit{E}}{Kantenmenge}{11e}
+\mksym{sfitglobal}{f}{Globale Gütefunktion}{11f}
+%
+% Symbols: Chapter 1 (greek chars)
+\nomenclature[S12]{}{}
+\mksym{sstoerung}{\Delta}{Störung}{12delta}
+\mksym{sloesungskandidat}{\gamma}{Lösungskandidat}{12gamma}
+\mksym{sarbeitsged}{\kappa}{Arbeitsgedächtnis}{12kappa0}
+\mksym{skonfkeys}{\mathsfit{K}}{Schlüsselmenge einer Konfiguration}{12kappa1}
+\mksym{sfplzaehler}{\lambda}{Fahrplan-Zähler}{12lambda}
+\mksym{smsg}{\mu}{Nachricht}{12mu}
+%
+% Symbols: Chapter 2
+% \nomenclature[S20]{}{}
+% \nomenclature[S21]{\textbf{\textsf{Konvergenz (\autoref{sec:convergence})}}}{}
+% \mksym{sstair}{\mathcal{A}}{Prädikat einer Konvergenzstufe}{2}
+% \mksym{sexec}{e}{Schleifenausführung}{2e0}
+% \mksym{sexecs}{E}{Parallele Schleifenausführungen}{2e1}
+% \mksym{sconf}{c}{Ausführungsfolge}{2c}
+% \mksym{sfitconf}{h}{Gütesumme für Ausführungsfolge}{2h}
+% \mksym{ssrall}{\mathsfit{L}}{Lösungsraum}{2l}
+% \mksym{svarfunc}{V\mskip-\thinmuskip{}F}{Potenzialfunktion für Terminierung}{2vs}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Simple macros
+%
+\newcommand{\engl}[1]{\emph{#1}}
+\newcommand{\Engl}[1]{\normalfont\emph{#1}}
+\newcommand{\todo}[1]{\marginpar{\textcolor{brown}{\textbf{TODO:}\\#1}}}
+\newcommand{\verweis}[1]{$\rightarrow$\,#1}
+\newcommand*{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt
+                     \hbox{\scriptsize.}\hbox{\scriptsize.}}}%
+                     =}
+\DeclareMathOperator*{\argmin}{arg\,min}
+% Big operators:
+\newcommand{\BIGOP}[1]{\mathop{\mathchoice%
+ {\raise-0.22em\hbox{\huge $#1$}}%
+ {\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
+\newcommand{\bigtimes}{\BIGOP{\times}}
+%
+% Math align column for tables
+% http://tex.stackexchange.com/a/78839
+\newcolumntype{A}{ >{$} r <{$} @{} >{${}} l <{$} } % A for "align"
+%% (1) "r" column in math mode:          >{$} r <{$}
+%% (2) no space:                         @{}
+%% (3) "l" column in math mode, with
+%%     an empty subformula at the start: >{${}} l <{$}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Environments
+%
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{korollar}{Korollar}
+%
+\newtheoremstyle{mydefinition}%
+  {}%        space above
+  {}%        space below
+  {}%{\color{primary}}%           body font
+  {}%           indent amount
+  {\bfseries}%  head font
+  {}%           punctuation after head
+  {\newline}%   space after head
+  {}%           head spec
+%
+%
+\newtheoremstyle{behavior}%
+  {}%        space above
+  {}%        space below
+  {\slshape}%           body font
+  {}%           indent amount
+  {\slshape}%  head font
+  {}%           punctuation after head
+  {\newline}%   space after head
+  {}%           head spec
+%
+%
+\declaretheorem[numberwithin=section,name=Definition,style=mydefinition,mdframed={
+  usetwoside=false,%
+  skipabove=\topsep,%
+  skipbelow=\topsep,%
+  leftmargin=0.1em,%
+  rightmargin=0em,%
+  topline=false,rightline=false,bottomline=false,leftline=true,%
+  % linecolor=primary,%
+  linewidth=1.5pt,%
+  innerleftmargin=1em,%
+  innerrightmargin=0em,%
+  innertopmargin=0.1em,%
+  innerbottommargin=0.1em,%
+  % frametitlerule=true,%
+  % frametitlerulecolor=green,%
+  % frametitlebackgroundcolor=\examplecolor,%
+  % frametitlerulewidth=2pt,%
+}]{definition}
+%
+\declaretheorem[numberwithin=section,name=Beispiel,style=mydefinition,mdframed={
+  usetwoside=false,%
+  skipabove=1.5\topsep,%
+  skipbelow=1.5\topsep,%
+  leftmargin=0em,%
+  rightmargin=0em,%
+  topline=true,rightline=false,bottomline=true,leftline=false,%
+  % linecolor=primary,%
+  linewidth=1.25pt,%
+  innerleftmargin=0em,%
+  innerrightmargin=0em,%
+  innertopmargin=\topsep,%
+  innerbottommargin=\topsep,%
+  frametitlerule=true,%
+  % frametitlerulecolor=green,%
+  % frametitlebackgroundcolor=\examplecolor,%
+  % frametitlerulewidth=2pt,%
+}]{example}
+%
+\declaretheorem[name={Lokale Verhaltensregel, Version},style=behavior,mdframed={
+  usetwoside=false,%
+  skipabove=1.5\topsep,%
+  skipbelow=1.5\topsep,%
+  leftmargin=0em,%
+  rightmargin=0em,%
+  topline=false,rightline=false,bottomline=false,leftline=false,%
+  % linecolor=primary,%
+  linewidth=1.5pt,%
+  innerleftmargin=0em,%
+  innerrightmargin=0em,%
+  innertopmargin=\topsep,%
+  innerbottommargin=\topsep,%
+  frametitlerule=true,%
+  % frametitlerulecolor=green,%
+  % frametitlebackgroundcolor=\examplecolor,%
+  % frametitlerulewidth=2pt,%
+}]{behavior}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Listings
+%
+\lstdefinestyle{python}{language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  % keywordstyle=\color{javaLila}\bfseries,
+  % commentstyle=\color{javaGreen},
+  % stringstyle=\color{javaBlue},
+  % numbers=left,
+  % numberstyle=\tiny,
+  % stepnumber=1,
+  showstringspaces=false,
+  captionpos=t,
+  breaklines=false,
+  % morecomment=*[s][\color{javaDocBlue}]{/**}{*/},
+  % tabsize=2,
+  % emph={@author, @deprecated, @param, @return, @see, @since, @throws, @version, @serial, @serialField, @serialData, @link},
+  % emphstyle=\color{javaDocTags}\bfseries,
+  extendedchars=true,
+  frame=,
+  upquote=true,
+  columns=fullflexible,
+  keepspaces=true,
+  % Copy-Pasteable:
+  % http://www.monperrus.net/martin/copy-pastable-listings-in-pdf-from-latex
+  % http://tex.stackexchange.com/questions/4911/phantom-spaces-in-listings-pdf
+  literate={*}{{\char42}}1
+           {-}{{\char45}}1
+           {\ }{{\copyablespace}}1
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TikZ
+%
+\pgfdeclarelayer{bg}    % declare background layer
+\pgfsetlayers{bg,main}  % set the order of the layers (main is the standard layer)
+\setvalue{nradius=2.5}
+\setvalue{nsize=1cm}
+%
+\tikzstyle{mynode}=[
+  rectangle,
+  draw=primary,
+  fill=primary,
+  rounded corners,
+  % drop shadow,
+  % text centered,
+  % anchor=north,
+  text=white,
+  % text width=3cm,
+  minimum size=\getvalue{nsize},
+]
+\tikzstyle{mybox}=[
+  rectangle,
+  draw=primary,
+  fill=primary,
+  text=white,
+  inner sep=1em,
+  text width=3cm,
+  align=center,
+]
+\tikzstyle{myline}=[
+  -,
+  draw=primary,
+  line width=2pt,
+  % line cap=round,
+  % line join=round,
+]
+\tikzstyle{myconnection}=[
+  myline,
+  % fill=primary,
+  ->,
+  % >=triangle 45,
+  line width=1.25pt,
+]
+\tikzstyle{myarrow}=[
+  single arrow,
+  % single arrow head extend=0.5cm,
+  draw=primaryB,
+  fill=primaryB,
+  minimum height=1cm,
+  % minimum width=3cm,
+]
+\tikzstyle{mycloud}=[
+  % cloud ignores aspect,
+  cloud callout,
+  draw=primary,
+  aspect=2,
+  callout pointer start size=6pt,
+  callout pointer end size=3pt,
+]
+\tikzstyle{mymsg}=[
+  draw=primary,
+  line width=1.5pt,
+  densely dashed,
+  postaction={decorate},
+  shorten >=3pt,
+]
+%
+%

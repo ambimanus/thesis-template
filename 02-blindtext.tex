@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Autor: Christian Hinrichs, Januar 2014
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Setup
+%
+% Der folgende Code wird nur ausgeführt, wenn diese Datei direkt kompiliert
+% wird (also ohne main.tex):
+\ifx\fulldocument\undefined
+  \input{setup}                                                                 % Lade Präambel
+  \begin{document}
+  \selectlanguage{ngerman}
+  \pagestyle{scrheadings}                                                       % Aktiviere Kopfzeilen
+  \setcounter{chapter}{1}                                                       % Korrigiere Kapitelzähler
+\fi
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Präambel bei Kapitelbeginn, kombinierbar mit \dictum (scrguide S. 116 ff.)
+% \setpartpreamble[Position][Breite]{Präambel}
+% \setchapterpreamble[Position][Breite]{Präambel}
+%
+\setchapterpreamble[o]{%
+  \renewcommand{\dictumwidth}{0.5\textwidth}
+  \addtokomafont{dictumtext}{\scriptsize\color{halfgray}}
+  \dictum[Autor]{%
+    Kluger Spruch hier.
+  }%
+}
+%
+\blinddocument
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Ende
+%
+% Der folgende Code wird nur ausgeführt, wenn diese Datei direkt kompiliert
+% wird (also ohne main.tex):
+\ifx\fulldocument\undefined
+  \printnomenclature
+  \printbibliography
+  \end{document}
+\fi
+%

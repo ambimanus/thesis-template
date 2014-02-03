@@ -1,0 +1,96 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Autor: Christian Hinrichs, Januar 2014
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Manuelles Abgabedatum (für "\today"), sinnvoll für die finale Druckversion.
+% \day=6 \month=1 \year=2014
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Setup
+%
+\def\fulldocument{}                                                             % Compiler-Flag für Gesamtdokument
+\input{setup}                                                                   % Lade Präambel
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\selectlanguage{ngerman}
+%
+% -----------------------------------------------------------------------------
+% Titelseiten (scrguide S. 67 ff.)
+%
+\pagenumbering{Roman}                                                           % große römische Seitenzahlen
+\includepdf{title.pdf}
+\input{titleback.tex}
+%
+% -----------------------------------------------------------------------------
+% Abstract (Deutsch)
+%
+\KOMAoption{abstract}{true}                                                     % Überschrift beim Abstract?
+\begin{abstract}
+  \input{abstract-de}
+\end{abstract}
+%
+% -----------------------------------------------------------------------------
+% Abstract (Englisch)
+%
+{\selectlanguage{english}
+  \KOMAoption{abstract}{true}                                                   % Überschrift beim Abstract?
+  \begin{abstract}
+    \input{abstract-en}
+  \end{abstract}
+}
+\selectlanguage{ngerman}
+%
+% -----------------------------------------------------------------------------
+% Inhaltsverzeichnis
+%
+\microtypesetup{protrusion=false}                                               % disables protrusion locally
+\tableofcontents
+\printnomenclature
+\microtypesetup{protrusion=true}                                                % enables protrusion
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAIN MATTER
+%
+\cleardoublepage                                                                % Beginne auf rechter Seite
+\pagenumbering{arabic}                                                          % Seitenzahlen ab hier arabisch
+\pagestyle{scrheadings}                                                         % Aktiviere Kopfzeilen
+%
+\input{01-einleitung.tex}
+\input{02-blindtext.tex}
+% ...
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BACK MATTER
+%
+\appendix
+\cleardoublepage
+\rohead{\mbox{%                                                                 % Header oben rechts: (KEINE Section), vert. Linie, Seitenzahl
+  \rlap{\small{\color{halfgray}\vline}\kern1em\pagemark}%
+}}
+%
+\input{appendix-a.tex}
+% ...
+%
+\microtypesetup{protrusion=false}                                               % disables protrusion locally
+\listoffigures
+% \listoftables
+\microtypesetup{protrusion=true}                                                % enables protrusion
+%
+% \setbibpreamble{Präambel}
+% \setindexpreamble{Präambel}
+% Diese funktionieren leider nicht immer (scrguide, S. 150 f., S. 153 f.)
+%
+% Glossar, Abkürzungen, Index
+% Einige/Alle dieser Verzeichnisse könnten auch direkt hinter das
+% Inhaltsverzeichnis platziert werden...
+%
+% Index gemäß Lamport erst nach Fertigstellung bauen!
+% Dann z.B. mit Wortliste starten:
+% detex -w main.tex | sort -uf
+% (siehe "texdoc makeindex")
+%
+\printbibliography
+%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

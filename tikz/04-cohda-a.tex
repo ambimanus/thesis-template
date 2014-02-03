@@ -1,0 +1,13 @@
+\begin{tikzpicture}[scale=0.9657]
+  % \draw [help lines] (0,0) grid (4,4);
+  % \fill [red] (0,0) circle (2pt);
+  %
+  \def\maxnode{7}
+  % Nodes
+  \node[mynode] at ($(0,0)!1!{360-0*360/8}:(0,\getvalue{nradius})$) (a0) {\xsverbundsp[0]};
+  \foreach \i in {1,2,...,\maxnode} {
+    \node[mynode] at ($(0,0)!1!{360-\i*360/8}:(0,\getvalue{nradius})$) (a\i) {\xsverbundtn[\i]};
+  }
+  % Cloud
+  \node[mycloud, callout relative pointer={(0.25, -0.3)}, above left=0.55 and 0.3 of a0.north] {\xswlprodukt};
+\end{tikzpicture}

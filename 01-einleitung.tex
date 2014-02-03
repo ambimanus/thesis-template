@@ -1,0 +1,123 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Autor: Christian Hinrichs, Januar 2014
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Setup
+%
+% Der folgende Code wird nur ausgeführt, wenn diese Datei direkt kompiliert
+% wird (also ohne main.tex):
+\ifx\fulldocument\undefined
+  \input{setup}                                                                 % Lade Präambel
+  \begin{document}
+  \selectlanguage{ngerman}
+  \pagestyle{scrheadings}                                                       % Aktiviere Kopfzeilen
+  % \setcounter{chapter}{0}                                                       % Korrigiere Kapitelzähler
+\fi
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\chapter{Einleitung}\label{sec:einleitung}
+%
+Dieses Template entstand im Rahmen der Anfertigung meiner Dissertation \cite{Hinrichs2014} und hat zum Tiel, ein optisch möglichst ansprechendes Dokument zu erzeugen, welches dabei die derzeit geltenden typografischen Regeln soweit wie sinnvoll und möglich beachtet. Zugleich beinhaltet es eine Menge von technischen Finessen, welche einerseits das Arbeiten am Dokument erleichtern, und andererseits dem Leser später gewisse Hilfestellungen geben. Im Folgenden werden die wesentlichen Punkte zur Verwendung des Templates kurz erläutert. Dabei werden zumeist Beispiele gegeben, um das Resultat der entsprechenden Funktionen aufzuzeigen. Das zweite Kapitel beinhaltet weiteren Blindtext zur Visualisierung einiger Gestaltungselemente wie Überschriften und Aufzählungen.
+%
+\par Generell gilt, dass neben dieser PDF auch die \texttt{tex}-Dateien betrachtet werden sollten, um einen Einblick in die korrekte Verwendung der vorgestellten Kommandos und Funktionen zu erhalten.
+%
+\begin{itemize}
+  \item figure, subfigure, footnote
+\end{itemize}
+%
+%
+\section{Dateistruktur des Templates}\label{sec:struktur}
+%
+Aufgrund des Umfangs wurde das Template stark modularisiert. Die Hauptdatei ist \texttt{main.tex}, in welcher alle weiteren Inhalte zusammenlaufen und zu einem Gesamtdokument verknüpft werden:
+%
+\begin{description}
+  \item[\texttt{setup.tex}] Beinhaltet das wesentliche typografische Layout (Dokumentenklasse, Satzspiegel, Fonts) sowie alle zu ladenden Pakete (microtype, biblatex, hyperref, tikz und viele mehr). Am Ende der Datei werden die Dateien \texttt{style.tex} und \texttt{hyphenation.tex} inkludiert.
+  \item[\texttt{style.tex}] Hier werden Textelemente wie Abkürzungen, Akronyme und Symbole sowie weitere Stilelemente wie Definitionen, Beispiele und TikZ-Stile definiert.
+  \item[\texttt{hyphenation.tex}] Stellt manuell eingetragene Trennregeln für fachspezifische Begriffe zur Verfügung, die ansonsten falsch oder an ungewollten Stellen getrennt werden. Für In-Text-Befehle zum Trennen von zusammengesetzten Wörten wie etwa TikZ"=Abbildungen siehe die Dokumentation von \emph{ngerman} (Abschnitt 2.2.4 in Version 2.5 von \texttt{gerdoc.pdf}).
+  \item[\texttt{title.pdf}] Titelblat, wird aufgrund des abweichenden Satzspiegels in einem separaten Dokument von \texttt{title.tex} erzeugt.
+  \item[\texttt{abstract-de.tex}, \texttt{abstract-de.tex}] Zusammenfassung der Arbeit in deutscher und englischer Sprache.
+  \item[\texttt{01-einleitung.tex}, \texttt{02-blindtext.tex}] Eigentlicher Inhalt der Arbeit, nach Kapiteln aufgeteilt.
+  \item[\texttt{appendix-a.tex}] Erster Anhang.
+  \item[\texttt{literatur.bib}] Literatur-Datenbank, zitierte Elemente werden zu einem Literaturverzeichnis am Ende der Arbeit kompiliert.
+\end{description}
+%
+Desweiteren steht mit \texttt{tikz.tex} ein Minimaldokument zum Testen von TikZ"=Abbildungen bereit. Neben der Hauptdatei können wahlweise alle Inhalts-Dateien (Titelblatt, die einzelnen Kapitel, und auch \texttt{tikz.tex}) auch separat kompiliert werden. Dies ist insbesondere bei umfangreichen Arbeiten sinnvoll, um während der Anfertigung die wiederholt erforderlichen Kompiliervorgänge zu beschleunigen.
+%
+%
+\section{Kompilieren}\label{sec:kompilieren}
+%
+Zum Kompilieren unter Linux steht ein Bash-Skript zu Verfügung (\texttt{compile.sh}), welches alle erforderlichen Kompilier-Schritte in intelligenter Weise ausführen kann. Die im Verzeichnis \texttt{tikz/} vorhandenen TikZ"=Abbildungen werden dabei parallel auf allen verfügbaren CPU-Kernen kompiliert und anschließend automatisch als PDF in das Gesamtdokument inkludiert (siehe PGF"=Dokumentation, Kapitel~32, \enquote{Externalization Library}). Die Aufrufsyntax des Skriptes ist wie folgt:
+%
+\begin{center}
+  \texttt{./compile.sh [tex-file [full | lazy]]}
+\end{center}
+%
+Wird das Skript ohne Argument aufgerufen, so wird das Gesamtdokument von Grund auf gebaut. Es kann jedoch auch eine einzelne Zieldatei angegeben werden (\zB{} \texttt{01-einleitung.tex}), dann wird diese separat kompiliert. Als optionales zweites Argument kann \texttt{full} oder \texttt{lazy} angegeben werden: \texttt{full} bewirkt, \ggf{} vorhandene temporäre Dateien aus vorhergehenden Läufen zunächst gelöscht werden, bevor die Zieldatei dann von Grund auf vollständig erstellt wird. Das Argument \texttt{lazy} bewirkt das Gegenteil, hier wird nur ein einzelner Lauf durchgeführt, wobei vorhandene temporäre Dateien soweit wie möglich wiederverwendet werden. Beispiele:\\[1em]
+%
+\texttt{./compile.sh}\\Erstelle das Gesamtdokument, beginnend mit \texttt{main.tex}. Ist eine aktuelle \texttt{.bbl} Datei vorhanden, so wird diese für das Literaturverzeichnis wiederverwendet, und der \texttt{biblatex} Vorgang wird übersprungen. Gleiches gilt für TikZ"=Abbildungen im Verzeichnis \texttt{tikz/}: Existiert ein aktuelles Kompilat der TikZ"=Abbildungen in \texttt{images/}, so werden diese wiederverwendet. Am Ende wird aufgeräumt, indem alle temporären Dateien gelöscht werden.\\[1em]
+%
+\texttt{./compile.sh tex-file}\\Wie oben, jedoch mit \texttt{tex-file} als Einstiegspunkt statt \texttt{main.tex}.\\[1em]
+%
+\texttt{./compile.sh tex-file full}\\Wie oben, jedoch werden alle temporären Dateien (Inhaltsverzeichnis, Nomenklatur \etc{}) sowie alle Zwischenkompilate ignoriert und neu erzeugt. Gilt insbesondere auch für das Literaturverzeichnis und alle TikZ"=Abbildungen.\\[1em]
+%
+\texttt{./compile.sh tex-file lazy}\\Im Gegensatz zu oben werden alle möglichen vorhandenen Dateien wiederverwendet, sofern sie aktuell sind. Temporäre Dateien werden nach dem Kompiliervorgang \textbf{nicht} gelöscht.\\[1em]
+%
+\textbf{Achtung:} Das Skript geht aktuell davon aus, dass das Projekt in einem Mercurial-Repository liegt! Das Skript prüft mit entsprechenden \texttt{hg} Kommandos, ob Dateien gegenüber dem Stand im Repository modifiziert wurden und neu kompiliert werden müssen.
+%
+%
+\section{Akronyme, Symbole}\label{sec:symbole}
+%
+Die im Text verwendeten Akronyme (\zB{} \SCADA{}) und Symbole (\zB{} \sstoerung{}) sind im Hinblick auf konsistente Verwendung zentral in \texttt{style.tex} definiert. Unter Verwendung relativ komplexer Kommandos wird hier ermöglicht, mit dieser zentralen Definition zugleich automatisch Einträge in das entsprechende Akronym- und Symbolverzeichnis anzulegen. Zudem können die Akronyme und Symbole mit frei definierbaren Tooltips hinterlegt werden (bei den oben aufgeführten bereits geschehen -- Mouseover zum Testen!).
+%
+%
+\section{Abkürzungen, Makros}\label{sec:makros}
+%
+Auch Abkürzungen werden aus Konsistenzgründen zentral in \texttt{style.tex} verwaltet: \zB{}, \sog{}, \bzgl{} und weitere. Zudem existieren einige hilfreiche Makros, \bspw{} um englische Begriffe hervorzuheben: \engl{constraint}, oder um eine TODO-Notiz am Seitenrand zu hinerlegen\todo{wie etwa diese hier}.
+%
+%
+\section{Textauszeichnungen}\label{sec:textauszeichnungen}
+%
+Für Anführungszeichen wird das Paket \emph{enquote} verwendet, welches je nach Spracheinstellung korrekte Anführungszeichen produziert, wie etwa \enquote{diese} im deutschen Kontext. Eingerückte Zitate können mit der \emph{quote} Umgebung erzeugt werden:
+%
+\begin{quote}
+  Zur Platzierung der Quelle und weiteren Optionen siehe die Dokumentation des hier verwendeten Paketes \emph{csquotes}.
+\end{quote}
+%
+Beispiele für Listings und Algorithmen sind in \autoref{app:example} zu finden.
+%
+%
+\section{Überschriften}\label{sec:ueberschriften}
+%
+Kapitel- und Abschnittsüberschriften sowie Bild-, Listings- und Algorithmenbezeichnungen können in einer Lang- und Kurzform existieren. Die Kurzform ist optional und wird mittels optionalem Parameter des entsprechenden \texttt{chapter}, \texttt{section} oder \texttt{caption} Befehls erzeugt, und sollte bei langen Überschriften verwendet werden:
+%
+\begin{center}
+  \verb!\section[Kurze Überschrift]{Lange Überschrift}!
+\end{center}
+%
+Sie wird im Inhalts- \bzw{} Abbildungsverzeichnissen \etc{} verwendet und kommt außerdem im Seitenkopf zum Einsatz. Dies vermeidet unschöne Umbrüche.
+%
+%
+\section{Abbildungen}\label{sec:abbildungen}
+%
+%
+% \begin{figure}
+%   \includegraphics[width=\textwidth]{Smart-Nord-Topologieebenen}
+%   \caption[Topologieebenen im Forschungsverbund \enquote{Smart Nord}]{Gesamtübersicht der betrachteten Topologieebenen im Forschungsverbund \enquote{Smart Nord}. Autor der Darstellung: \OFFIS{} -- Institut für Informatik\protect\footnotemark, mit Genehmigung verwendet.}
+%   \label{fig:Smart-Nord-Topologieebenen}
+% \end{figure}
+% \footnotetext{\label{fn:offis}\url{http://www.offis.de}, letzter Zugriff \today}
+%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Ende
+%
+% Der folgende Code wird nur ausgeführt, wenn diese Datei direkt kompiliert
+% wird (also ohne main.tex):
+\ifx\fulldocument\undefined
+  \printnomenclature
+  \printbibliography
+  \end{document}
+\fi
+%
