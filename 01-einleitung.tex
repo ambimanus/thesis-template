@@ -16,16 +16,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
-\chapter{Einleitung}\label{sec:einleitung}
+\chapter{Dokumentation}\label{sec:dokumentation}
 %
-Dieses Template entstand im Rahmen der Anfertigung meiner Dissertation \cite{Hinrichs2014} und hat zum Tiel, ein optisch möglichst ansprechendes Dokument zu erzeugen, welches dabei die derzeit geltenden typografischen Regeln soweit wie sinnvoll und möglich beachtet. Zugleich beinhaltet es eine Menge von technischen Finessen, welche einerseits das Arbeiten am Dokument erleichtern, und andererseits dem Leser später gewisse Hilfestellungen geben. Im Folgenden werden die wesentlichen Punkte zur Verwendung des Templates kurz erläutert. Dabei werden zumeist Beispiele gegeben, um das Resultat der entsprechenden Funktionen aufzuzeigen. Das zweite Kapitel beinhaltet weiteren Blindtext zur Visualisierung einiger Gestaltungselemente wie Überschriften und Aufzählungen.
+Dieses Template entstand im Rahmen der Anfertigung meiner Dissertation \cite{Hinrichs2014} und hat zum Tiel, ein optisch möglichst ansprechendes Dokument zu erzeugen, welches dabei die derzeit geltenden typografischen Regeln soweit wie sinnvoll und möglich beachtet. Zugleich beinhaltet es eine Menge von technischen Finessen, welche einerseits das Arbeiten am Dokument erleichtern, und andererseits dem Leser später gewisse Hilfestellungen geben. Im Folgenden werden die wesentlichen Punkte zur Verwendung des Templates kurz erläutert. Dabei werden zumeist Beispiele gegeben, um das Resultat der entsprechenden Funktionen aufzuzeigen. Das zweite Kapitel beinhaltet weiteren Blindtext zur Visualisierung einiger Gestaltungselemente wie Überschriften und Aufzählungen. Generell gilt, dass neben dieser PDF auch die \texttt{tex}-Dateien betrachtet werden sollten, um einen Einblick in die korrekte Verwendung der vorgestellten Kommandos und Funktionen zu erhalten.
 %
-\par Generell gilt, dass neben dieser PDF auch die \texttt{tex}-Dateien betrachtet werden sollten, um einen Einblick in die korrekte Verwendung der vorgestellten Kommandos und Funktionen zu erhalten.
-%
-\begin{itemize}
-  \item figure, subfigure, footnote
-\end{itemize}
-%
+\\\par\noindent Stand: Februar 2014\\
+Für Hinweise, Verbesserungen, Fragen: \href{mailto:christian.hinrichs@uni-oldenburg.de}{\nolinkurl{christian.hinrichs@uni-oldenburg.de}}
 %
 \section{Dateistruktur des Templates}\label{sec:struktur}
 %
@@ -33,16 +29,16 @@ Aufgrund des Umfangs wurde das Template stark modularisiert. Die Hauptdatei ist 
 %
 \begin{description}
   \item[\texttt{setup.tex}] Beinhaltet das wesentliche typografische Layout (Dokumentenklasse, Satzspiegel, Fonts) sowie alle zu ladenden Pakete (microtype, biblatex, hyperref, tikz und viele mehr). Am Ende der Datei werden die Dateien \texttt{style.tex} und \texttt{hyphenation.tex} inkludiert.
-  \item[\texttt{style.tex}] Hier werden Textelemente wie Abkürzungen, Akronyme und Symbole sowie weitere Stilelemente wie Definitionen, Beispiele und TikZ-Stile definiert.
-  \item[\texttt{hyphenation.tex}] Stellt manuell eingetragene Trennregeln für fachspezifische Begriffe zur Verfügung, die ansonsten falsch oder an ungewollten Stellen getrennt werden. Für In-Text-Befehle zum Trennen von zusammengesetzten Wörten wie etwa TikZ"=Abbildungen siehe die Dokumentation von \emph{ngerman} (Abschnitt 2.2.4 in Version 2.5 von \texttt{gerdoc.pdf}).
+  \item[\texttt{style.tex}] Hier werden Textelemente wie Abkürzungen, Akronyme und Symbole sowie weitere Stilelemente wie Definitions-/Beispielumgebungen und TikZ"=Stile definiert.
+  \item[\texttt{hyphenation.tex}] Stellt manuell eingetragene Trennregeln für fachspezifische Begriffe zur Verfügung, die ansonsten falsch oder an ungewollten Stellen getrennt werden. Für In-Text-Befehle zum Trennen von zusammengesetzten Wörten wie etwa \enquote{TikZ"=Abbildungen} siehe die Dokumentation von \emph{ngerman} (Abschnitt 2.2.4 in Version 2.5 von \texttt{gerdoc.pdf}).
   \item[\texttt{title.pdf}] Titelblat, wird aufgrund des abweichenden Satzspiegels in einem separaten Dokument von \texttt{title.tex} erzeugt.
-  \item[\texttt{abstract-de.tex}, \texttt{abstract-de.tex}] Zusammenfassung der Arbeit in deutscher und englischer Sprache.
-  \item[\texttt{01-einleitung.tex}, \texttt{02-blindtext.tex}] Eigentlicher Inhalt der Arbeit, nach Kapiteln aufgeteilt.
+  \item[\texttt{abstract-de.tex}, \texttt{abstract-en.tex}] Zusammenfassung der Arbeit in deutscher und englischer Sprache.
+  \item[\texttt{01-einleitung.tex} \usw{}] Eigentlicher Inhalt der Arbeit, nach Kapiteln aufgeteilt.
   \item[\texttt{appendix-a.tex}] Erster Anhang.
   \item[\texttt{literatur.bib}] Literatur-Datenbank, zitierte Elemente werden zu einem Literaturverzeichnis am Ende der Arbeit kompiliert.
 \end{description}
 %
-Desweiteren steht mit \texttt{tikz.tex} ein Minimaldokument zum Testen von TikZ"=Abbildungen bereit. Neben der Hauptdatei können wahlweise alle Inhalts-Dateien (Titelblatt, die einzelnen Kapitel, und auch \texttt{tikz.tex}) auch separat kompiliert werden. Dies ist insbesondere bei umfangreichen Arbeiten sinnvoll, um während der Anfertigung die wiederholt erforderlichen Kompiliervorgänge zu beschleunigen.
+Desweiteren steht mit \texttt{tikz.tex} ein Minimaldokument zum Testen von TikZ"=Abbildungen bereit. Neben der Hauptdatei können wahlweise alle Inhalts-Dateien (Titelblatt, die einzelnen Kapitel, sowie \texttt{tikz.tex}) auch separat kompiliert werden. Dies ist insbesondere bei umfangreichen Arbeiten sinnvoll, um während der Anfertigung die wiederholt erforderlichen Kompiliervorgänge zu beschleunigen.
 %
 %
 \section{Kompilieren}\label{sec:kompilieren}
@@ -53,15 +49,17 @@ Zum Kompilieren unter Linux steht ein Bash-Skript zu Verfügung (\texttt{compile
   \texttt{./compile.sh [tex-file [full | lazy]]}
 \end{center}
 %
-Wird das Skript ohne Argument aufgerufen, so wird das Gesamtdokument von Grund auf gebaut. Es kann jedoch auch eine einzelne Zieldatei angegeben werden (\zB{} \texttt{01-einleitung.tex}), dann wird diese separat kompiliert. Als optionales zweites Argument kann \texttt{full} oder \texttt{lazy} angegeben werden: \texttt{full} bewirkt, \ggf{} vorhandene temporäre Dateien aus vorhergehenden Läufen zunächst gelöscht werden, bevor die Zieldatei dann von Grund auf vollständig erstellt wird. Das Argument \texttt{lazy} bewirkt das Gegenteil, hier wird nur ein einzelner Lauf durchgeführt, wobei vorhandene temporäre Dateien soweit wie möglich wiederverwendet werden. Beispiele:\\[1em]
+Wird das Skript ohne Argument aufgerufen, so wird das Gesamtdokument von Grund auf gebaut. Es kann jedoch auch eine einzelne Zieldatei angegeben werden (\zB{} \texttt{01-einleitung.tex}), dann wird diese separat kompiliert. Als optionales zweites Argument kann \texttt{full} oder \texttt{lazy} angegeben werden: \texttt{full} bewirkt, dass \ggf{} vorhandene temporäre Dateien aus vorhergehenden Läufen zunächst gelöscht werden, bevor die Zieldatei dann von Grund auf vollständig erstellt wird. Das Argument \texttt{lazy} bewirkt das Gegenteil, hier wird nur ein einzelner Lauf durchgeführt, wobei vorhandene temporäre Dateien soweit wie möglich wiederverwendet werden.
 %
-\texttt{./compile.sh}\\Erstelle das Gesamtdokument, beginnend mit \texttt{main.tex}. Ist eine aktuelle \texttt{.bbl} Datei vorhanden, so wird diese für das Literaturverzeichnis wiederverwendet, und der \texttt{biblatex} Vorgang wird übersprungen. Gleiches gilt für TikZ"=Abbildungen im Verzeichnis \texttt{tikz/}: Existiert ein aktuelles Kompilat der TikZ"=Abbildungen in \texttt{images/}, so werden diese wiederverwendet. Am Ende wird aufgeräumt, indem alle temporären Dateien gelöscht werden.\\[1em]
+\\\par\noindent Beispiele:\\[1em]
+%
+\texttt{./compile.sh}\\Erstelle das Gesamtdokument, beginnend mit \texttt{main.tex}. Ist eine aktuelle \texttt{.bbl} Datei vorhanden, so wird diese für das Literaturverzeichnis wiederverwendet, und der \texttt{biblatex} Vorgang wird übersprungen. Gleiches gilt für TikZ"=Abbildungen: Existiert ein aktuelles Kompilat der TikZ"=Abbildungen (aus dem Verzeichnis \texttt{tikz/}) im Verzeichnis \texttt{images/}, so werden diese wiederverwendet. Weitere temporäre Dateien werden \textbf{nicht} verwendet, daher werden mindestens sechs Kompiliervorgänge durchgeführt (drei für das Titelblatt, drei für das Hauptdokument, und \ggf{} weitere für TikZ"=Abbildungen). Am Ende wird aufgeräumt, indem alle temporären Dateien gelöscht werden.\\[1em]
 %
 \texttt{./compile.sh tex-file}\\Wie oben, jedoch mit \texttt{tex-file} als Einstiegspunkt statt \texttt{main.tex}.\\[1em]
 %
 \texttt{./compile.sh tex-file full}\\Wie oben, jedoch werden alle temporären Dateien (Inhaltsverzeichnis, Nomenklatur \etc{}) sowie alle Zwischenkompilate ignoriert und neu erzeugt. Gilt insbesondere auch für das Literaturverzeichnis und alle TikZ"=Abbildungen.\\[1em]
 %
-\texttt{./compile.sh tex-file lazy}\\Im Gegensatz zu oben werden alle möglichen vorhandenen Dateien wiederverwendet, sofern sie aktuell sind. Temporäre Dateien werden nach dem Kompiliervorgang \textbf{nicht} gelöscht.\\[1em]
+\texttt{./compile.sh tex-file lazy}\\Im Gegensatz zu oben wird nur \textbf{ein} Kompiliervorgang durchgeführt, bei dem alle möglichen vorhandenen Dateien wiederverwendet werden, sofern sie aktuell sind. Temporäre Dateien werden nach dem Kompiliervorgang \textbf{nicht} gelöscht. Dieser Modus eignet sich insbesondere während der Anfertigung eines Kapitels, um eine schnelle Vorschau des geschriebenen Textes zu erhalten.\\[1em]
 %
 \textbf{Achtung:} Das Skript geht aktuell davon aus, dass das Projekt in einem Mercurial-Repository liegt! Das Skript prüft mit entsprechenden \texttt{hg} Kommandos, ob Dateien gegenüber dem Stand im Repository modifiziert wurden und neu kompiliert werden müssen.
 %
@@ -73,7 +71,7 @@ Die im Text verwendeten Akronyme (\zB{} \SCADA{}) und Symbole (\zB{} \sstoerung{
 %
 \section{Abkürzungen, Makros}\label{sec:makros}
 %
-Auch Abkürzungen werden aus Konsistenzgründen zentral in \texttt{style.tex} verwaltet: \zB{}, \sog{}, \bzgl{} und weitere. Zudem existieren einige hilfreiche Makros, \bspw{} um englische Begriffe hervorzuheben: \engl{constraint}, oder um eine TODO-Notiz am Seitenrand zu hinerlegen\todo{wie etwa diese hier}.
+Auch Abkürzungen werden aus Konsistenzgründen zentral in \texttt{style.tex} verwaltet: \zB{}, \sog{}, \bzgl{} und weitere. Zudem existieren einige hilfreiche Makros, \bspw{} um englische Begriffe hervorzuheben: \engl{constraint}, oder um eine TODO-Notiz am Seitenrand zu platzieren\todo{wie etwa diese hier}.
 %
 %
 \section{Textauszeichnungen}\label{sec:textauszeichnungen}
@@ -95,20 +93,79 @@ Kapitel- und Abschnittsüberschriften sowie Bild-, Listings- und Algorithmenbeze
   \verb!\section[Kurze Überschrift]{Lange Überschrift}!
 \end{center}
 %
-Sie wird im Inhalts- \bzw{} Abbildungsverzeichnissen \etc{} verwendet und kommt außerdem im Seitenkopf zum Einsatz. Dies vermeidet unschöne Umbrüche.
+Die Kurzform wird dann in Inhalts- \bzw{} Abbildungsverzeichnissen \etc{} verwendet und kommt außerdem im Seitenkopf zum Einsatz. Dies vermeidet unschöne Umbrüche.
 %
 %
-\section{Abbildungen}\label{sec:abbildungen}
+\section{Abbildungen und Tabellen}\label{sec:abbildungen}
 %
 %
-% \begin{figure}
-%   \includegraphics[width=\textwidth]{Smart-Nord-Topologieebenen}
-%   \caption[Topologieebenen im Forschungsverbund \enquote{Smart Nord}]{Gesamtübersicht der betrachteten Topologieebenen im Forschungsverbund \enquote{Smart Nord}. Autor der Darstellung: \OFFIS{} -- Institut für Informatik\protect\footnotemark, mit Genehmigung verwendet.}
-%   \label{fig:Smart-Nord-Topologieebenen}
-% \end{figure}
-% \footnotetext{\label{fn:offis}\url{http://www.offis.de}, letzter Zugriff \today}
+Abbildungen, Tabellen, Beispiele, Listings und Algorithmen (\vgl{} \autoref{app:example}) werden in \emph{floating} Umgebungen gesetzt und von \LaTeX{} platziert. Hierbei sollte folgende Regel beachtet werden: Zunächst im Fließtext die zu platzierende Abbildung \oae{} erwähnen und referenzieren. Nach Ende des Satzes dann den Code der Abbildung samt \emph{label} und \emph{caption} einfügen (wie hier mit \autoref{fig:08-epex} geschehen).
 %
+\begin{figure}
+  \centering
+  \tikzsetnextfilename{08-epex}
+  \input{tikz/08-epex.tex}
+  \caption[\textsf{EPEX SPOT} (Handelstag)]{Handelstag des Szenarios \enquote{Auktionshandel \textsf{EPEX SPOT}}.}
+  \label{fig:08-epex}
+\end{figure}
 %
+Anschließend mit dem beschreibenden Fließtext fortfahren. Hierbei bitte keine Leerzeilen einfügen, da dies sonst als Absatzumbruch gewertet wird und den Fließtext auseinanderreißt. Der Sinn hinter dieser Regel ist, dass eine Abbildung sowohl im Code als auch im Kompilat möglichst nah an ihrer ersten Referenz im Text platziert wird, \ggf{} auf einer der nachfolgenden Seiten, aber auf niemals einer der Referenz vorhergehenden Seite. Dass eine Abbildung nicht ohne auf sie verweisende Referenz im Text existieren darf, sollte selbstverständlich sein.
+%
+\par \autoref{fig:cohda} zeigt exemplarisch eine Abbildung, welche aus mehreren \emph{subfigures} besteht.
+%
+\begin{figure}
+  \centering
+  \tikzsetnextfilename{04-cohda-a}
+  \subfigure[Initial kennt nur der Verbundsprecher $\xsverbundsp_0$ das Wirkleistungsprodukt \xswlprodukt{}.]{\input{tikz/04-cohda-a.tex}\label{fig:cohda-a}}\hfill
+  %
+  \tikzsetnextfilename{04-cohda-b}
+  \subfigure[Der Verbundsprecher $\xsverbundsp_0$ bildet ein Overlay-Netz und informiert alle Verbundteilnehmer $\xsverbundtn_i$ über deren jeweilige Nachbarschaften $\xsnachbarschaft_i$.]{\input{tikz/04-cohda-b.tex}\label{fig:cohda-b}}\\
+  %
+  \tikzsetnextfilename{04-cohda-c}
+  \subfigure[Der Verbundsprecher $\xsverbundsp_0$ erzeugt die erste Fahrplanauswahl für seine Energieanlage, und füllt sein Arbeitsgedächtnis $\xsarbeitsged_0$ entsprechend.]{\input{tikz/04-cohda-c.tex}\label{fig:cohda-c}}\hfill
+  %
+  \tikzsetnextfilename{04-cohda-d}
+  \subfigure[Indem $\xsverbundsp_0$ sein Arbeitsgedächtnis $\xsarbeitsged_0$ an seine Nachbarn sendet, wird die eigentliche Konsensfindung gestartet.]{\input{tikz/04-cohda-d.tex}\label{fig:cohda-d}}
+  %
+  \caption[Heuristik: \COHDA{}]{Die initialen Schritte zum Starten der \COHDA{} Heuristik\protect\footnotemark{} anhand eines Beispiels mit acht Verbundteilnehmern.}
+  \label{fig:cohda}
+\end{figure}
+\footnotetext{\label{fn:testnote}Lorem ipsum dolor sit amet, consectetur, adipisci velit.}
+%
+An diesem Beispiel ist auch die besondere Behandlung von Fußnoten zu sehen, wenn ein solche im Abbildungstext erscheinen soll, aber aus Platzgründen nicht auf der gleichen Seite wie die Abbildung platziert werden kann. Im vorliegenden Fall wurde \autoref{fn:testnote} möglichst nahe der Definition im Code platziert, und damit vor der eigentlichen Referenz in der Abbildung -- hier muss \ggf{} durch späteres Positionieren des \texttt{footnotetext} Kommandos manuell nachgebessert werden.
+%
+\\\par\noindent Für Tabellen wird das \emph{booktabs} Paket verwendet, welches auf einfache Weise Tabellen ermöglicht, die sich nach den folgenden typografisch ansprechenden Regeln richten:
+%
+\begin{enumerate}
+  \item Never, ever use vertical rules.
+  \item Never use double rules.
+  \item Put the units in the column heading (not in the body of the table).
+  \item Always precede a decimal point by a digit; thus 0.1 not just .1.
+  \item Do not use ‘ditto’ signs or any other such convention to repeat a previous value. In many circumstances a blank will serve just as well. If it won’t, then repeat the value.
+\end{enumerate}
+%
+Ein Beispiel hierzu ist in \autoref{tab:linearisierung} dargestellt.
+%
+\begin{table}
+  \centering
+  \begin{tabular}{@{}llAA@{}}  % "@{}" entfernt margins links und rechts
+    \toprule
+    Zusammenhang & Transformation & \multicolumn{2}{l}{Regressionsgleichung} & \multicolumn{2}{l}{Schätzgleichung}\\
+    \midrule
+    logarithmisch & lin-log & y &= \sbeta[0] + \sbeta[1] \cdot \ln x & \hat{y} &= \sbeta[0] + \sbeta[1] \cdot \ln x \\
+    potenziell & log-log & \ln y &= \sbeta[0] + \sbeta[1] \cdot \ln x & \hat{y} &= \mathrm{e}^{\sbeta[0]} \cdot x^{\sbeta[1]} \\
+    linear & lin-lin & y &= \sbeta[0] + \sbeta[1] \cdot x & \hat{y} &= \sbeta[0] + \sbeta[0] \cdot x \\
+    quadratisch & sqrt-lin & \sqrt{y} &= \sbeta[0] + \sbeta[1] \cdot x & \hat{y} &= (\sbeta[0] + \sbeta[0] \cdot x)^2 \\
+    exponentiell & log-lin & \ln y &= \sbeta[0] + \sbeta[1] \cdot x & \hat{y} &= \mathrm{e}^{\sbeta[0] + \sbeta[0] \cdot x} \\
+    \bottomrule
+  \end{tabular}
+  \caption{Transformationen für verschiedene Zusammenhangsmodelle \bzgl{} der linearen Regression.}
+  \label{tab:linearisierung} % label immer hinter caption!!
+\end{table}
+%
+Diese zeigt zudem die Verwendung einer speziellen Spaltendefinition, welche die horizontale Ausrichtung von mathematischen Inhalten über mehrere Zeilen hinweg erlaubt (siehe dazu \texttt{style.tex}, Abschnitt \engl{Simple macros}). Eine wichtige Regel bei Tabellen ist, dass das \emph{label} immer hinter der \emph{caption} im Code platziert werden sollte, da die Hyperlink-Referenzen ansonsten möglicherweise Probleme bereiten könnten.
+%
+\\\par\noindent Im nachfolgenden Kapitel werden nun noch einige Gestaltungselemente mittels Blindext-Inhalt veranschaulicht: \blindtext
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Ende
