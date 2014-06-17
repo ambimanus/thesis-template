@@ -79,10 +79,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Symbols
 %
-% Here the tooltip must be ASCII, otherwise the compiler would break when using
-% a symbol in math mode. Therefore, a few extra arguments are necessary.
-% Also, we want to be able to assign an index to the symbols. Thus the command
-% definition below is a lot more difficult.
+% For symbols, we usually cannot use the symbol itself as command name, so that
+% must be customizable. Also, we want to be able to assign an index to the
+% symbols. Thus the command definition below is a lot more difficult.
+%
 \makeatletter
 \newcommand{\mksym}[4]{%
   % #1 = command name for the symbol
@@ -116,18 +116,22 @@
       {\csname @x#1\endcsname}% without argument
   }%
   %
-  % Second, define the tooltip text based on argument #3.
-  \global\expandafter\def\csname @tt#1\endcsname{#3}%
-  %
-  % Third, build the actual delegate targets (hyperref package required)
+  % Second, build the actual delegate targets (hyperref package required)
   \global\expandafter\def\csname @@#1\endcsname[##1]{%
-    \href{Definition: \csname @tt#1\endcsname}{%
-      \textcolor{black}{\ensuremath{#2_{##1}}}%
+    \ensuremath{%
+      \textrm{%
+        \href{Definition: #3}{%
+          \textcolor{black}{\ensuremath{#2}}%
+        }%
+      }%
+      _{##1}%
     }%
   }%
   \global\expandafter\def\csname @#1\endcsname{%
-    \href{Definition: \csname @tt#1\endcsname}{%
-      \textcolor{black}{\ensuremath{#2}}%
+    \textrm{%
+      \href{Definition: #3}{%
+        \textcolor{black}{\ensuremath{#2}}%
+      }%
     }%
   }%
   \global\expandafter\def\csname @@x#1\endcsname[##1]{%
