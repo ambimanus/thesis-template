@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Autor: Christian Hinrichs, Januar 2014
+% Autor: Christian Hinrichs, 2013/2014
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[
   BCOR=10mm,                                                                     % ca. 280 Seiten = 140 Blätter * 0.14 mm / 2 = Bindekorrektur 10 mm
@@ -147,7 +147,7 @@
 \definecolor{webbrown}{rgb}{.6,0,0}
 \definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
 %
-% http://colorschemedesigner.com/#3C41TqdnZw0w0
+% http://paletton.com/#uid=73C0u0kqdnZgRvslGrjthjD-Yeu
 \definecolor{primary}{HTML}{1F4A7D}
 \definecolor{primaryA}{HTML}{94A4B6}
 \definecolor{primaryB}{HTML}{6581A4}
@@ -586,6 +586,14 @@
   \def\tableautorefname{Tabelle}%
 }
 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bugfixes
+%
+% Fixes error: "Leaders not followed by proper glue." after upgrading from
+% Ubuntu 13.10 to 14.04 (see http://tex.stackexchange.com/a/135356)
+\makeatletter
+\def\hrulefill{\leavevmode\leaders \hrule height \rulethickness \hfill\kern\z@}
+\makeatletter
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Weitere includes
