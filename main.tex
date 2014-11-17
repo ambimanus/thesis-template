@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Autor: Christian Hinrichs, Januar 2014
+% Autor: Christian Hinrichs, 2013/2014
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Manuelles Abgabedatum (für "\today"), sinnvoll für die finale Druckversion.
 % \day=6 \month=1 \year=2014
@@ -41,7 +41,7 @@
 \selectlanguage{ngerman}
 %
 % -----------------------------------------------------------------------------
-% Inhaltsverzeichnis
+% Inhaltsverzeichnis, Symbolverzeichnis etc.
 %
 \microtypesetup{protrusion=false}                                               % disables protrusion locally
 \tableofcontents
@@ -65,32 +65,52 @@
 %
 \appendix
 \cleardoublepage
-\rohead{\mbox{%                                                                 % Header oben rechts: (KEINE Section), vert. Linie, Seitenzahl
+\rohead{\mbox{%                                                                 % Header oben rechts: (KEINE Section), vert. Linie, Seitenzahl (vgl. originale Definition von \rohead in setup.tex)
   \rlap{\small{\color{halfgray}\vline}\kern1em\pagemark}%
 }}
 %
+% -----------------------------------------------------------------------------
+% Anhang
+%
 \input{appendix-a.tex}
 % ...
+%
+% -----------------------------------------------------------------------------
+% Abbildungsverzeichnis, Tabellenverzeichnis etc.
 %
 \microtypesetup{protrusion=false}                                               % disables protrusion locally
 \listoffigures
 % \listoftables
 \microtypesetup{protrusion=true}                                                % enables protrusion
 %
-% \setbibpreamble{Präambel}
-% \setindexpreamble{Präambel}
+% -----------------------------------------------------------------------------
+% Präambeln für Verzeichnisse
 % Diese funktionieren leider nicht immer (scrguide, S. 150 f., S. 153 f.)
 %
+% \setbibpreamble{Präambel}
+% \setindexpreamble{Präambel}
+%
+% -----------------------------------------------------------------------------
 % Glossar, Abkürzungen, Index
 % Einige/Alle dieser Verzeichnisse könnten auch direkt hinter das
-% Inhaltsverzeichnis platziert werden...
+% Inhaltsverzeichnis platziert werden.
+%
+% \input{glossary.tex}
+% ...
 %
 % Index gemäß Lamport erst nach Fertigstellung bauen!
 % Dann z.B. mit Wortliste starten:
 % detex -w main.tex | sort -uf
 % (siehe "texdoc makeindex")
+% ...
+%
+% -----------------------------------------------------------------------------
+% Literaturverzeichnis
 %
 \printbibliography
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Ende
 %
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

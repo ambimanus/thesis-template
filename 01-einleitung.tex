@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Autor: Christian Hinrichs, Januar 2014
+% Autor: Christian Hinrichs, 2013/2014
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Setup
 %
@@ -20,7 +20,7 @@
 %
 Dieses Template entstand im Rahmen der Anfertigung meiner Dissertation \cite{Hinrichs2014} und hat zum Tiel, ein optisch möglichst ansprechendes Dokument zu erzeugen, welches dabei die derzeit geltenden typografischen Regeln soweit wie sinnvoll und möglich beachtet. Zugleich beinhaltet es eine Menge von technischen Finessen, welche einerseits das Arbeiten am Dokument erleichtern, und andererseits dem Leser später gewisse Hilfestellungen geben. Im Folgenden werden die wesentlichen Punkte zur Verwendung des Templates kurz erläutert. Dabei werden zumeist Beispiele gegeben, um das Resultat der entsprechenden Funktionen aufzuzeigen. Das zweite Kapitel beinhaltet weiteren Blindtext zur Visualisierung einiger Gestaltungselemente wie Überschriften und Aufzählungen. Generell gilt, dass neben dieser PDF auch die \texttt{tex}-Dateien betrachtet werden sollten, um einen Einblick in die korrekte Verwendung der vorgestellten Kommandos und Funktionen zu erhalten.
 %
-\\\par\noindent Stand: Februar 2014\\
+\\\par\noindent Stand: November 2014\\
 Für Hinweise, Verbesserungen, Fragen: \href{mailto:christian.hinrichs@uni-oldenburg.de}{\nolinkurl{christian.hinrichs@uni-oldenburg.de}}
 %
 \section{Dateistruktur des Templates}\label{sec:struktur}
@@ -132,7 +132,7 @@ Anschließend mit dem beschreibenden Fließtext fortfahren. Hierbei bitte keine 
 \end{figure}
 \footnotetext{\label{fn:testnote}Lorem ipsum dolor sit amet, consectetur, adipisci velit.}
 %
-An diesem Beispiel ist auch die besondere Behandlung von Fußnoten zu sehen, wenn ein solche im Abbildungstext erscheinen soll, aber aus Platzgründen nicht auf der gleichen Seite wie die Abbildung platziert werden kann. Im vorliegenden Fall wurde \autoref{fn:testnote} möglichst nahe der Definition im Code platziert, und damit vor der eigentlichen Referenz in der Abbildung -- hier muss \ggf{} durch späteres Positionieren des \texttt{footnotetext} Kommandos manuell nachgebessert werden.
+An diesem Beispiel ist auch die besondere Behandlung von Fußnoten zu sehen, wenn eine solche im Abbildungstext erscheinen soll, aber aus Platzgründen nicht auf der gleichen Seite wie die Abbildung platziert werden kann. Im vorliegenden Fall wurde \autoref{fn:testnote} möglichst nahe der Definition im Code platziert, und damit vor der eigentlichen Referenz in der Abbildung -- hier muss \ggf{} durch späteres Positionieren des \texttt{footnotetext} Kommandos manuell nachgebessert werden.
 %
 \\\par\noindent Für Tabellen wird das \emph{booktabs} Paket verwendet, welches auf einfache Weise Tabellen ermöglicht, die sich nach den folgenden typografisch ansprechenden Regeln richten:
 %
@@ -154,9 +154,9 @@ Ein Beispiel hierzu ist in \autoref{tab:linearisierung} dargestellt.
     \midrule
     logarithmisch & lin-log & y &= \sbeta[0] + \sbeta[1] \cdot \ln x & \hat{y} &= \sbeta[0] + \sbeta[1] \cdot \ln x \\
     potenziell & log-log & \ln y &= \sbeta[0] + \sbeta[1] \cdot \ln x & \hat{y} &= \mathrm{e}^{\sbeta[0]} \cdot x^{\sbeta[1]} \\
-    linear & lin-lin & y &= \sbeta[0] + \sbeta[1] \cdot x & \hat{y} &= \sbeta[0] + \sbeta[0] \cdot x \\
-    quadratisch & sqrt-lin & \sqrt{y} &= \sbeta[0] + \sbeta[1] \cdot x & \hat{y} &= (\sbeta[0] + \sbeta[0] \cdot x)^2 \\
-    exponentiell & log-lin & \ln y &= \sbeta[0] + \sbeta[1] \cdot x & \hat{y} &= \mathrm{e}^{\sbeta[0] + \sbeta[0] \cdot x} \\
+    linear & lin-lin & y &= \sbeta[0] + \sbeta[1] \cdot x & \hat{y} &= \sbeta[0] + \sbeta[1] \cdot x \\
+    quadratisch & sqrt-lin & \sqrt{y} &= \sbeta[0] + \sbeta[1] \cdot x & \hat{y} &= (\sbeta[0] + \sbeta[1] \cdot x)^2 \\
+    exponentiell & log-lin & \ln y &= \sbeta[0] + \sbeta[1] \cdot x & \hat{y} &= \mathrm{e}^{\sbeta[0] + \sbeta[1] \cdot x} \\
     \bottomrule
   \end{tabular}
   \caption{Transformationen für verschiedene Zusammenhangsmodelle \bzgl{} der linearen Regression.}
