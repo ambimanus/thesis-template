@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Autor: Christian Hinrichs, 2013/2014
+% Autor: Christian Hinrichs, 2013--2015
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Setup
 %
@@ -18,9 +18,9 @@
 %
 \chapter{Dokumentation}\label{sec:dokumentation}
 %
-Dieses Template entstand im Rahmen der Anfertigung meiner Dissertation \cite{Hinrichs2014} und hat zum Tiel, ein optisch möglichst ansprechendes Dokument zu erzeugen, welches dabei die derzeit geltenden typografischen Regeln soweit wie sinnvoll und möglich beachtet. Zugleich beinhaltet es eine Menge von technischen Finessen, welche einerseits das Arbeiten am Dokument erleichtern, und andererseits dem Leser später gewisse Hilfestellungen geben. Im Folgenden werden die wesentlichen Punkte zur Verwendung des Templates kurz erläutert. Dabei werden zumeist Beispiele gegeben, um das Resultat der entsprechenden Funktionen aufzuzeigen. Das zweite Kapitel beinhaltet weiteren Blindtext zur Visualisierung einiger Gestaltungselemente wie Überschriften und Aufzählungen. Generell gilt, dass neben dieser PDF auch die \texttt{tex}-Dateien betrachtet werden sollten, um einen Einblick in die korrekte Verwendung der vorgestellten Kommandos und Funktionen zu erhalten.
+Dieses Template entstand im Rahmen der Anfertigung meiner Dissertation \cite{Hinrichs2014} und hat zum Ziel, ein optisch möglichst ansprechendes Dokument zu erzeugen, welches dabei die derzeit geltenden typografischen Regeln soweit wie sinnvoll und möglich beachtet. Zugleich beinhaltet es eine Menge von technischen Finessen, welche einerseits das Arbeiten am Dokument erleichtern, und andererseits dem Leser später gewisse Hilfestellungen geben. Im Folgenden werden die wesentlichen Punkte zur Verwendung des Templates kurz erläutert. Dabei werden zumeist Beispiele gegeben, um das Resultat der entsprechenden Funktionen aufzuzeigen. Das zweite Kapitel beinhaltet weiteren Blindtext zur Visualisierung einiger Gestaltungselemente wie Überschriften und Aufzählungen. Generell gilt, dass neben dieser PDF auch die \texttt{tex}-Dateien betrachtet werden sollten, um einen Einblick in die korrekte Verwendung der vorgestellten Kommandos und Funktionen zu erhalten.
 %
-\\\par\noindent Stand: November 2014\\
+\\\par\noindent Stand: August 2015\\
 Für Hinweise, Verbesserungen, Fragen: \href{mailto:christian.hinrichs@uni-oldenburg.de}{\nolinkurl{christian.hinrichs@uni-oldenburg.de}}
 %
 \section{Dateistruktur des Templates}\label{sec:struktur}
@@ -28,10 +28,10 @@ Für Hinweise, Verbesserungen, Fragen: \href{mailto:christian.hinrichs@uni-olden
 Aufgrund des Umfangs wurde das Template stark modularisiert. Die Hauptdatei ist \texttt{main.tex}, in welcher alle weiteren Inhalte zusammenlaufen und zu einem Gesamtdokument verknüpft werden:
 %
 \begin{description}
-  \item[\texttt{setup.tex}] Beinhaltet das wesentliche typografische Layout (Dokumentenklasse, Satzspiegel, Fonts) sowie alle zu ladenden Pakete (microtype, biblatex, hyperref, tikz und viele mehr). Am Ende der Datei werden die Dateien \texttt{style.tex} und \texttt{hyphenation.tex} inkludiert.
+  \item[\texttt{setup.tex}] Beinhaltet das wesentliche typografische Layout (Dokumentenklasse, Satzspiegel, Fonts), Boolean-Variablen zum Umschalten zwischen Entwurfs"~, Online- und Printmodus, sowie alle zu ladenden Pakete (microtype, biblatex, hyperref, tikz und viele mehr). Am Ende der Datei werden die Dateien \texttt{style.tex} und \texttt{hyphenation.tex} inkludiert.
   \item[\texttt{style.tex}] Hier werden Textelemente wie Abkürzungen, Akronyme und Symbole sowie weitere Stilelemente wie Definitions-/Beispielumgebungen und TikZ"=Stile definiert.
-  \item[\texttt{hyphenation.tex}] Stellt manuell eingetragene Trennregeln für fachspezifische Begriffe zur Verfügung, die ansonsten falsch oder an ungewollten Stellen getrennt werden. Für In-Text-Befehle zum Trennen von zusammengesetzten Wörten wie etwa \enquote{TikZ"=Abbildungen} siehe die Dokumentation von \emph{ngerman} (Abschnitt 2.2.4 in Version 2.5 von \texttt{gerdoc.pdf}).
-  \item[\texttt{title.pdf}] Titelblat, wird aufgrund des abweichenden Satzspiegels in einem separaten Dokument von \texttt{title.tex} erzeugt.
+  \item[\texttt{hyphenation.tex}] Stellt manuell eingetragene Trennregeln für fachspezifische Begriffe zur Verfügung, die ansonsten falsch oder an ungewollten Stellen getrennt werden. Für In-Text-Befehle zum Trennen von zusammengesetzten Wörten wie etwa \enquote{TikZ"=Abbildungen} siehe die Dokumentation von \emph{ngerman} (Abschnitt 2.2.4 in Version 2.5 von \texttt{gerdoc.pdf}).\footnote{\url{http://mirrors.ctan.org/language/german/gerdoc.pdf}}
+  \item[\texttt{title.pdf}] Titelblatt, wird aufgrund des abweichenden Satzspiegels in einem separaten Dokument von \texttt{title.tex} erzeugt.
   \item[\texttt{abstract-de.tex}, \texttt{abstract-en.tex}] Zusammenfassung der Arbeit in deutscher und englischer Sprache.
   \item[\texttt{01-einleitung.tex} \usw{}] Eigentlicher Inhalt der Arbeit, nach Kapiteln aufgeteilt.
   \item[\texttt{appendix-a.tex}] Erster Anhang.
@@ -43,7 +43,7 @@ Desweiteren steht mit \texttt{tikz.tex} ein Minimaldokument zum Testen von TikZ"
 %
 \section{Kompilieren}\label{sec:kompilieren}
 %
-Zum Kompilieren unter Linux steht ein Bash-Skript zu Verfügung (\texttt{compile.sh}), welches alle erforderlichen Kompilier-Schritte in intelligenter Weise ausführen kann. Die im Verzeichnis \texttt{tikz/} vorhandenen TikZ"=Abbildungen werden dabei parallel auf allen verfügbaren CPU-Kernen kompiliert und anschließend automatisch als PDF in das Gesamtdokument inkludiert (siehe PGF"=Dokumentation, Kapitel~32, \enquote{Externalization Library}). Die Aufrufsyntax des Skriptes ist wie folgt:
+Zum Kompilieren unter Linux steht ein Bash-Skript zu Verfügung (\texttt{compile.sh}), welches alle erforderlichen Kompilier-Schritte in intelligenter Weise ausführen kann. Die im Verzeichnis \texttt{tikz/} vorhandenen TikZ"=Abbildungen werden dabei parallel auf allen verfügbaren CPU-Kernen kompiliert und anschließend automatisch als PDF in das Gesamtdokument inkludiert (siehe PGF"=Dokumentation, Kapitel~32, \enquote{Externalization Library}).\footnote{\url{http://mirrors.ctan.org/graphics/pgf/base/doc/pgfmanual.pdf}} Die Aufrufsyntax des Skriptes ist wie folgt:
 %
 \begin{center}
   \texttt{./compile.sh [tex-file [full | lazy]]}
