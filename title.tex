@@ -18,8 +18,6 @@
 % -----------------------------------------------------------------------------
 % Titelseiten (scrguide S. 67 ff.)
 %
-\pagenumbering{Roman}                                                           % große römische Seitenzahlen
-%
 \titlehead{
   \vspace{6em}
   \centering
@@ -45,11 +43,30 @@
   % \vspace{8em}%
 }
 %
-% \author{{\usekomafont{subtitle}\normalfont{}vorgelegt von}\\Vorname Nachname} % Serifen- oder Serifenlose Schrift?
-\author{{\large\textsf{vorgelegt von}}\\\textsf{Vorname Nachname}}
+% \author{{\usekomafont{subtitle}\normalfont{}vorgelegt von}\\Vorname Nachname} % Serifen-
+\author{{\large\textsf{vorgelegt von}}\\\textsf{Vorname Nachname}}              % oder Serifenlose Schrift?
 %
-% \date{\usekomafont{subtitle}\normalfont\today}                                % Serifen- oder Serifenlose Schrift?
-\date{\large\textsf{\today}}
+% =============================================================================
+% Angabe des Erstellungsdatums, für Gutachter-Version
+%
+% \date{\usekomafont{subtitle}\normalfont\today}                                % Serifen-
+\date{\large\textsf{\today}}                                                    % oder Serifenlose Schrift?
+%
+% --- ALTERNATIV: ---
+%
+% Angabe der Gutachter und des Disputationsdatums, für Publikations-Version
+%
+\date{%
+  \vspace*{0.5em}%
+  % \usekomafont{subtitle}\normalfont{%                                         % Serifen-
+  \large\textsf{%                                                               % oder Serifenlose Schrift?
+    Gutachter:\\%
+    Prof. Dr. M. Mustermann\\%
+    Prof. Dr. F. Musterfrau\\[2em]%
+    Tag der Disputation: 1. Januar 2000%
+  }%
+}
+% =============================================================================
 %
 \maketitle
 %
