@@ -11,3 +11,5 @@ Figures: [PGF/TikZ](http://pgf.sourceforge.net/)
 
 
 Beware: The documentation is currenty only available in German.
+
+**Notice: The template has been tested in **TexLive 2013** only. You may face issues when using other/newer LaTeX distributions.
